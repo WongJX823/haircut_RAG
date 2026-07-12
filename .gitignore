@@ -6,3 +6,4 @@ knowledge_base/index/
 *.pkl
 .streamlit/
 .pytest_cache/
+feedback.csv

@@ -8,6 +8,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from services.validator import validate_api_key
 from services.pipeline import run_pipeline
+from services.feedback import save_feedback
 
 load_dotenv()
 
@@ -75,6 +76,13 @@ if st.button("✂️ Analyse & Recommend", type="primary", use_container_width=T
         else:
             status.update(label="❌ Analysis stopped", state="error", expanded=False)
 
+    # Persist across reruns so results (and the feedback widget below)
+    # survive widget interactions, which each trigger a full script rerun.
+    st.session_state.result = result
+    st.session_state.analysis_id = st.session_state.get("analysis_id", 0) + 1
+
+result = st.session_state.get("result")
+
 # ── RESULTS ──────────────────────────────────────────────────────────────────
 if result is not None:
     if not result.success:
@@ -110,3 +118,28 @@ if result is not None:
         for i, chunk in enumerate(result.retrieved_context, 1):
             st.markdown(f"**Source {i}:**")
             st.text(chunk)
+
+    st.divider()
+
+    # ── FEEDBACK ─────────────────────────────────────────────────────────────
+    # Keys include analysis_id so the radio resets for each new analysis.
+    analysis_id = st.session_state.get("analysis_id", 0)
+    saved_key = f"feedback_saved_{analysis_id}"
+
+    st.subheader("Feedback")
+    satisfaction = st.radio(
+        "Are you satisfied with the recommendation?",
+        options=["😊 Yes", "😞 No"],
+        index=None,
+        horizontal=True,
+        key=f"satisfaction_{analysis_id}",
+    )
+    if satisfaction is not None:
+        if not st.session_state.get(saved_key):
+            save_feedback(
+                satisfied=satisfaction == "😊 Yes",
+                features=result.features,
+                input_sources=result.input_sources,
+            )
+            st.session_state[saved_key] = True
+        st.success("Thank you for your feedback!")
