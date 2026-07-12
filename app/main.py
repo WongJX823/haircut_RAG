@@ -56,14 +56,24 @@ st.caption(f"Example: *{example}*")
 
 has_input = bool(image_uploaded or video_uploaded or user_text)
 if st.button("✂️ Analyse & Recommend", type="primary", use_container_width=True, disabled=not has_input):
-    with st.spinner("Analysing your inputs and generating a recommendation..."):
+    with st.status("Starting analysis...", expanded=True) as status:
+        def show_step(message: str):
+            status.update(label=message)
+            st.write(message)
+
         result = run_pipeline(
             image_bytes=image_uploaded.getvalue() if image_uploaded else None,
             image_filename=image_uploaded.name if image_uploaded else None,
             video_bytes=video_uploaded.getvalue() if video_uploaded else None,
             video_filename=video_uploaded.name if video_uploaded else None,
             user_text=user_text or None,
+            on_progress=show_step,
         )
+
+        if result.success:
+            status.update(label="✅ Done!", state="complete", expanded=False)
+        else:
+            status.update(label="❌ Analysis stopped", state="error", expanded=False)
 
 # ── RESULTS ──────────────────────────────────────────────────────────────────
 if result is not None:
