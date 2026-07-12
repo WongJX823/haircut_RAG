@@ -15,3 +15,23 @@ Rules:
 - If hair is not visible or too short to judge, set hair_type to "Straight" and hair_texture to "Medium".
 - Do not include any explanation outside the JSON.
 """
+
+SAME_PERSON_PROMPT = """
+You are verifying whether two photos show the same individual, so a haircut
+recommendation isn't accidentally generated from mismatched inputs (e.g. a
+photo of one person and a video of someone else).
+
+Compare the faces in the images provided. Ignore differences caused by
+lighting, camera angle, image quality, or video compression — focus on
+facial structure and identity.
+
+Return ONLY a JSON object with these exact keys:
+
+{
+  "same_person": <true | false>,
+  "reason": "<one short, plain-language sentence explaining your judgement>"
+}
+
+If you cannot tell with reasonable confidence, set "same_person" to true
+(give the benefit of the doubt) and explain the uncertainty in "reason".
+"""

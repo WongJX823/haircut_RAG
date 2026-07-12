@@ -3,11 +3,12 @@ Sends a facial image to GPT-4o Vision and returns structured face/hair features.
 """
 
 import base64
+import json
 from collections import Counter
 from pathlib import Path
 from openai import OpenAI
 from pydantic import BaseModel
-from prompts.vision_prompt import VISION_PROMPT
+from prompts.vision_prompt import VISION_PROMPT, SAME_PERSON_PROMPT
 
 
 class FaceFeatures(BaseModel):
@@ -68,6 +69,33 @@ def extract_features(image_path: str) -> FaceFeatures:
     )
 
     raw = response.choices[0].message.content
-    import json
     data = json.loads(raw)
     return FaceFeatures(**data)
+
+
+def check_same_person(image_paths: list[str]) -> tuple[bool, str]:
+    """
+    Sends 2+ face images to GPT-4o Vision and asks whether they depict the
+    same person. Used to catch mismatched inputs (e.g. a photo and a video
+    of two different people) before generating a recommendation.
+    """
+    client = OpenAI()
+    content = [{"type": "text", "text": SAME_PERSON_PROMPT}]
+    for path in image_paths:
+        b64 = encode_image(path)
+        ext = Path(path).suffix.lstrip(".").lower()
+        media_type = "jpeg" if ext in ("jpg", "jpeg") else ext
+        content.append({
+            "type": "image_url",
+            "image_url": {"url": f"data:image/{media_type};base64,{b64}"},
+        })
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": content}],
+        response_format={"type": "json_object"},
+        max_tokens=150,
+    )
+
+    data = json.loads(response.choices[0].message.content)
+    return bool(data.get("same_person", True)), data.get("reason", "")

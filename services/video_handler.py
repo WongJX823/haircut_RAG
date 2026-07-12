@@ -49,18 +49,22 @@ def extract_best_frame(video_path: str, num_samples: int = 10) -> np.ndarray:
     return best_frame
 
 
+def extract_frame_to_tempfile(video_path: str) -> str:
+    """
+    Extracts the sharpest frame and saves it as a temp JPEG, returning its path.
+    Caller is responsible for deleting the file when done.
+    """
+    best_frame = extract_best_frame(video_path)
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
+        tmp_frame_path = tmp.name
+    cv2.imwrite(tmp_frame_path, best_frame)
+    return tmp_frame_path
+
+
 def handle_video(tmp_video_path: str) -> FaceFeatures:
-    best_frame = extract_best_frame(tmp_video_path)
-
-    # Save best frame as a temp JPEG and pass to image handler
-    tmp_frame_path = None
+    tmp_frame_path = extract_frame_to_tempfile(tmp_video_path)
     try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
-            tmp_frame_path = tmp.name
-
-        cv2.imwrite(tmp_frame_path, best_frame)
         return handle_image(tmp_frame_path)
-
     finally:
-        if tmp_frame_path and os.path.exists(tmp_frame_path):
+        if os.path.exists(tmp_frame_path):
             os.unlink(tmp_frame_path)
