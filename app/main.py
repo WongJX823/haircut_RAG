@@ -135,11 +135,29 @@ if result is not None:
         key=f"satisfaction_{analysis_id}",
     )
     if satisfaction is not None:
-        if not st.session_state.get(saved_key):
+        if st.session_state.get(saved_key):
+            st.success("Thank you for your feedback!")
+        elif satisfaction == "😊 Yes":
             save_feedback(
-                satisfied=satisfaction == "😊 Yes",
+                satisfied=True,
                 features=result.features,
                 input_sources=result.input_sources,
             )
             st.session_state[saved_key] = True
-        st.success("Thank you for your feedback!")
+            st.success("Thank you for your feedback!")
+        else:
+            suggestion = st.text_area(
+                "Sorry to hear that! What style would you have preferred? (optional)",
+                key=f"suggestion_{analysis_id}",
+                max_chars=500,
+                height=100,
+            )
+            if st.button("📨 Send feedback", key=f"send_feedback_{analysis_id}"):
+                save_feedback(
+                    satisfied=False,
+                    features=result.features,
+                    input_sources=result.input_sources,
+                    suggestion=suggestion,
+                )
+                st.session_state[saved_key] = True
+                st.success("Thank you for your feedback!")

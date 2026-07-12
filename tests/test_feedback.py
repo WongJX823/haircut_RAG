@@ -18,9 +18,11 @@ def test_save_feedback_creates_file_with_header(tmp_path):
     rows = _read_rows(path)
     assert len(rows) == 2
     assert rows[0][:2] == ["timestamp_utc", "satisfied"]
+    assert rows[0][-1] == "suggestion"
     assert rows[1][1] == "yes"
     assert rows[1][2] == "image+text"
-    assert rows[1][3:] == ["Round", "Curly", "Thick", "Male"]
+    assert rows[1][3:7] == ["Round", "Curly", "Thick", "Male"]
+    assert rows[1][7] == ""
 
 
 def test_save_feedback_appends_without_duplicate_header(tmp_path):
@@ -32,3 +34,18 @@ def test_save_feedback_appends_without_duplicate_header(tmp_path):
     assert len(rows) == 3
     assert rows[2][1] == "no"
     assert rows[2][2] == "text"
+
+
+def test_save_feedback_records_suggestion(tmp_path):
+    path = str(tmp_path / "feedback.csv")
+    save_feedback(
+        satisfied=False,
+        features=FEATURES,
+        input_sources=["image"],
+        suggestion="  I would prefer a buzz cut instead.  ",
+        path=path,
+    )
+
+    rows = _read_rows(path)
+    assert rows[1][1] == "no"
+    assert rows[1][7] == "I would prefer a buzz cut instead."

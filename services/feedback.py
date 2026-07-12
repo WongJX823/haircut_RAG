@@ -16,6 +16,7 @@ FEEDBACK_FILE = "feedback.csv"
 _HEADER = [
     "timestamp_utc", "satisfied", "input_sources",
     "face_shape", "hair_type", "hair_texture", "gender",
+    "suggestion",
 ]
 
 
@@ -23,6 +24,7 @@ def save_feedback(
     satisfied: bool,
     features: FaceFeatures,
     input_sources: list,
+    suggestion: str = "",
     path: str = FEEDBACK_FILE,
 ) -> None:
     is_new = not os.path.exists(path)
@@ -38,4 +40,5 @@ def save_feedback(
             features.hair_type,
             features.hair_texture,
             features.gender,
+            suggestion.strip(),
         ])
