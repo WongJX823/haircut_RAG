@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" pages="3">
   <diagram id="flowchart" name="Flowchart">
-    <mxGraphModel dx="1202" dy="624" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1180" pageHeight="1600" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="1202" dy="624" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1180" pageHeight="1800" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -122,11 +122,40 @@
         <mxCell id="vid2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="handle_video():&#xa;extract sharpest frame&#xa;(Laplacian variance, OpenCV)" vertex="1">
           <mxGeometry height="50" width="230" x="475" y="600" as="geometry" />
         </mxCell>
+        <mxCell id="fc_d_same" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Photo also uploaded:&#xa;same person?&#xa;(GPT-4o compares photo&#xa;vs sharpest frame)" vertex="1">
+          <mxGeometry height="90" width="230" x="475" y="675" as="geometry" />
+        </mxCell>
+        <mxCell id="fc_err_same" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Show error:&#xa;photo and video show&#xa;different people" vertex="1">
+          <mxGeometry height="60" width="170" x="990" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_same_no" edge="1" parent="1" source="fc_d_same" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc_err_same">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_same_no_lbl" connectable="0" parent="fe_same_no" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_same_photo" edge="1" parent="1" source="img1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;dashed=1;" target="fc_d_same">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="555" />
+              <mxPoint x="180" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fe_same_photo_lbl" connectable="0" parent="fe_same_photo" style="edgeLabel;html=1;fontSize=10;" value="photo (if provided)" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
         <mxCell id="vid3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="handle_image():&#xa;send frame to GPT-4o Vision API" vertex="1">
-          <mxGeometry height="50" width="230" x="475" y="670" as="geometry" />
+          <mxGeometry height="50" width="230" x="475" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_same_yes" edge="1" parent="1" source="fc_d_same" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_same_yes_lbl" connectable="0" parent="fe_same_yes" style="edgeLabel;html=1;fontSize=10;fontStyle=1;" value="Yes / no photo" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
         </mxCell>
         <mxCell id="vid4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Parse response →&#xa;FaceFeatures (video)" vertex="1">
-          <mxGeometry height="50" width="230" x="475" y="740" as="geometry" />
+          <mxGeometry height="50" width="230" x="475" y="870" as="geometry" />
         </mxCell>
         <mxCell id="fe_branch_vid" edge="1" parent="1" source="fc_idx_d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid1">
           <mxGeometry relative="1" as="geometry" />
@@ -134,7 +163,7 @@
         <mxCell id="fe_vid1" edge="1" parent="1" source="vid1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="fe_vid2" edge="1" parent="1" source="vid2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid3">
+        <mxCell id="fe_vid2" edge="1" parent="1" source="vid2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d_same">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="fe_vid3" edge="1" parent="1" source="vid3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid4">
@@ -173,53 +202,79 @@
         <mxCell id="fe_val_txt" edge="1" parent="1" source="txt1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" target="fc_val_err">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="merge1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="merge_features() [pipeline layer]:&#xa;majority vote per field&#xa;(tie-break: image &gt; video &gt; text)" vertex="1">
-          <mxGeometry height="60" width="380" x="400" y="860" as="geometry" />
+        <mxCell id="fc_d_gender" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Text gender contradicts&#xa;photo/video gender?" vertex="1">
+          <mxGeometry height="80" width="230" x="475" y="960" as="geometry" />
         </mxCell>
-        <mxCell id="fe_merge_img" edge="1" parent="1" source="img3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge1">
+        <mxCell id="fc_err_gender" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Show error:&#xa;description doesn't match&#xa;the person in photo/video" vertex="1">
+          <mxGeometry height="60" width="170" x="990" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_gender_yes" edge="1" parent="1" source="fc_d_gender" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc_err_gender">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_gender_yes_lbl" connectable="0" parent="fe_gender_yes" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="Yes" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="merge1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="merge_features() [pipeline layer]:&#xa;majority vote per field&#xa;(tie-break: image &gt; video &gt; text)" vertex="1">
+          <mxGeometry height="60" width="380" x="400" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_gender_no" edge="1" parent="1" source="fc_d_gender" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_gender_no_lbl" connectable="0" parent="fe_gender_no" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge_img" edge="1" parent="1" source="img3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d_gender">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="1000" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="fe_merge_img_lbl" connectable="0" parent="fe_merge_img" style="edgeLabel;html=1;fontSize=10;" value="if provided" vertex="1">
           <mxGeometry relative="0.5" as="geometry" />
         </mxCell>
-        <mxCell id="fe_merge_vid" edge="1" parent="1" source="vid4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge1">
+        <mxCell id="fe_merge_vid" edge="1" parent="1" source="vid4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d_gender">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="fe_merge_vid_lbl" connectable="0" parent="fe_merge_vid" style="edgeLabel;html=1;fontSize=10;" value="if provided" vertex="1">
           <mxGeometry relative="0.5" as="geometry" />
         </mxCell>
-        <mxCell id="fe_merge_txt" edge="1" parent="1" source="txt3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="fe_merge_txt" edge="1" parent="1" source="txt3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d_gender">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="855" y="1000" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="fe_merge_txt_lbl" connectable="0" parent="fe_merge_txt" style="edgeLabel;html=1;fontSize=10;" value="if provided" vertex="1">
           <mxGeometry relative="0.5" as="geometry" />
         </mxCell>
         <mxCell id="merge2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Final FaceFeatures&#xa;(face_shape, hair_type, hair_texture, gender)" vertex="1">
-          <mxGeometry height="50" width="250" x="465" y="940" as="geometry" />
+          <mxGeometry height="50" width="250" x="465" y="1180" as="geometry" />
         </mxCell>
         <mxCell id="fe_merge2" edge="1" parent="1" source="merge1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="step_query" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" value="Build semantic query string&#xa;from merged features" vertex="1">
-          <mxGeometry height="50" width="250" x="465" y="1010" as="geometry" />
+          <mxGeometry height="50" width="250" x="465" y="1250" as="geometry" />
         </mxCell>
         <mxCell id="fe_q" edge="1" parent="1" source="merge2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_query">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="step_faiss" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="Search FAISS vector index&#xa;retrieve Top-4 knowledge chunks" vertex="1">
-          <mxGeometry height="50" width="250" x="465" y="1080" as="geometry" />
+          <mxGeometry height="50" width="250" x="465" y="1320" as="geometry" />
         </mxCell>
         <mxCell id="fe_faiss" edge="1" parent="1" source="step_query" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_faiss">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="decision_chunks" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Relevant chunks&#xa;found?" vertex="1">
-          <mxGeometry height="70" width="200" x="490" y="1150" as="geometry" />
+          <mxGeometry height="70" width="200" x="490" y="1390" as="geometry" />
         </mxCell>
         <mxCell id="fe_chunks" edge="1" parent="1" source="step_faiss" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="decision_chunks">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="no_chunks" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Warn: No relevant&#xa;knowledge found" vertex="1">
-          <mxGeometry height="50" width="170" x="990" y="1160" as="geometry" />
+          <mxGeometry height="50" width="170" x="990" y="1400" as="geometry" />
         </mxCell>
         <mxCell id="fe_no_chunks" edge="1" parent="1" source="decision_chunks" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="no_chunks">
           <mxGeometry relative="1" as="geometry" />
@@ -228,7 +283,7 @@
           <mxGeometry relative="0.5" as="geometry" />
         </mxCell>
         <mxCell id="step_recommend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Send chunks + merged features&#xa;to GPT-4o → generate grounded&#xa;recommendation" vertex="1">
-          <mxGeometry height="60" width="250" x="465" y="1250" as="geometry" />
+          <mxGeometry height="60" width="250" x="465" y="1490" as="geometry" />
         </mxCell>
         <mxCell id="fe_recommend_yes" edge="1" parent="1" source="decision_chunks" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_recommend">
           <mxGeometry relative="1" as="geometry" />
@@ -241,18 +296,18 @@
         <mxCell id="fe_no_chunks_continue" edge="1" parent="1" source="no_chunks" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" target="step_recommend">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1075" y="1270" />
+              <mxPoint x="1075" y="1510" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="step_display" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="Display results on Streamlit UI&#xa;(features + recommendation +&#xa;sources + input methods badge)" vertex="1">
-          <mxGeometry height="60" width="250" x="465" y="1340" as="geometry" />
+          <mxGeometry height="60" width="250" x="465" y="1580" as="geometry" />
         </mxCell>
         <mxCell id="fe_display" edge="1" parent="1" source="step_recommend" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_display">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="fc_end" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#000000;fontColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;arcSize=50;" value="END" vertex="1">
-          <mxGeometry height="45" width="150" x="515" y="1430" as="geometry" />
+          <mxGeometry height="45" width="150" x="515" y="1670" as="geometry" />
         </mxCell>
         <mxCell id="fe_end" edge="1" parent="1" source="step_display" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_end">
           <mxGeometry relative="1" as="geometry" />
@@ -325,8 +380,14 @@
         <mxCell id="uc4" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Classify Hair Type&#xa;(Straight / Wavy / Curly / Coily)" vertex="1">
           <mxGeometry height="55" width="210" x="230" y="330" as="geometry" />
         </mxCell>
+        <mxCell id="uc_verify" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Verify Inputs Show Same Person&#xa;(photo vs video via GPT-4o,&#xa;text gender consistency)" vertex="1">
+          <mxGeometry height="65" width="230" x="460" y="330" as="geometry" />
+        </mxCell>
         <mxCell id="uc_merge" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Merge Multi-Modal Features&#xa;(majority vote, priority&#xa;image &gt; video &gt; text)" vertex="1">
           <mxGeometry height="65" width="260" x="150" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_verify" edge="1" parent="uc_boundary" source="uc_merge" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc_verify" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="uc5" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="Retrieve Relevant Knowledge&#xa;(FAISS Semantic Search)" vertex="1">
           <mxGeometry height="55" width="260" x="150" y="515" as="geometry" />
@@ -412,6 +473,9 @@
         <mxCell id="ua6" edge="1" parent="1" source="uc_openai" style="edgeStyle=none;html=1;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="ua7" edge="1" parent="1" source="uc_openai" style="edgeStyle=none;html=1;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc_verify">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="uc_leg_title" parent="1" style="text;html=1;fontStyle=1;fontSize=12;" value="Legend" vertex="1">
           <mxGeometry height="20" width="100" x="1180" y="250" as="geometry" />
         </mxCell>
@@ -471,8 +535,31 @@
         <mxCell id="p3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P3&#xa;Feature Classification&#xa;(Pydantic Schema)" vertex="1">
           <mxGeometry height="80" width="160" x="480" y="490" as="geometry" />
         </mxCell>
-        <mxCell id="p_merge" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P_merge&#xa;Merge Multi-Modal&#xa;Features (services/pipeline.py)" vertex="1">
+        <mxCell id="p_check" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P_check&#xa;Same-Person Check&#xa;(GPT-4o, photo vs frame)" vertex="1">
+          <mxGeometry height="80" width="170" x="700" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="p_merge" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P_merge&#xa;Gender-Consistency Check +&#xa;Merge Features (services/pipeline.py)" vertex="1">
           <mxGeometry height="80" width="170" x="700" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="f_check1" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;" target="p_check" value="Photo">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_check2" edge="1" parent="1" source="p1b" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;" target="p_check" value="Sharpest Frame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_check3" edge="1" parent="1" source="p_check" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="openai" value="Both Faces + Same-Person Prompt&#xa;⇄ same_person verdict">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f_check4" edge="1" parent="1" source="p_check" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;" target="p_merge" value="Verified (same person)&#xa;else error to user">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p4" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" value="P4&#xa;Query Construction&#xa;(LangChain Template)" vertex="1">
           <mxGeometry height="80" width="160" x="700" y="490" as="geometry" />
