@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from services.validator import validate_api_key
 from services.pipeline import run_pipeline
 from services.feedback import save_feedback
+from services.style_images import find_style_images
 
 load_dotenv()
 
@@ -36,7 +37,7 @@ image_uploaded = st.file_uploader(
 if image_uploaded:
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.image(image_uploaded, caption="Your photo", use_container_width=True)
+        st.image(image_uploaded, caption="Your photo", width="stretch")
 
 video_uploaded = st.file_uploader(
     "🎥 Upload a short face video",
@@ -56,7 +57,7 @@ user_text = st.text_area(
 st.caption(f"Example: *{example}*")
 
 has_input = bool(image_uploaded or video_uploaded or user_text)
-if st.button("✂️ Analyse & Recommend", type="primary", use_container_width=True, disabled=not has_input):
+if st.button("✂️ Analyse & Recommend", type="primary", width="stretch", disabled=not has_input):
     with st.status("Starting analysis...", expanded=True) as status:
         def show_step(message: str):
             status.update(label=message)
@@ -107,8 +108,35 @@ if result is not None:
     st.divider()
 
     # Recommendation
-    st.subheader("Your Personalised Recommendation")
-    st.write(result.recommendation)
+    st.subheader("Your personalised recommendation")
+    rec = result.recommendation
+    st.write(rec.summary)
+
+    if rec.haircuts:
+        # One card per recommended style, side by side with equal heights
+        cols = st.columns(len(rec.haircuts))
+        for col, cut in zip(cols, rec.haircuts):
+            with col, st.container(border=True, height="stretch"):
+                images = find_style_images(cut.name, result.features.gender, max_images=1)
+                if images:
+                    st.image(images[0]["path"], width="stretch")
+                st.markdown(f"#### {cut.name}")
+                st.write(cut.why_it_works)
+                st.markdown(f"**:material/brush: Styling:** {cut.styling_tip}")
+                st.markdown(f"**:material/schedule: Maintenance:** {cut.maintenance}")
+    else:
+        # Fallback when the model returned plain text: scan it for known
+        # style names and show any matching reference photos.
+        ref_images = find_style_images(rec.summary, result.features.gender)
+        if ref_images:
+            st.subheader("Reference looks")
+            cols = st.columns(len(ref_images))
+            for col, img in zip(cols, ref_images):
+                with col:
+                    st.image(img["path"], caption=img["style"], width="stretch")
+
+    if rec.style_to_avoid:
+        st.warning(f"**Avoid: {rec.style_to_avoid}** — {rec.avoid_reason}", icon=":material/block:")
 
     st.divider()
 

@@ -17,9 +17,22 @@ Gender     : {features.gender}
 {context}
 
 --- TASK ---
-Based on the customer profile and the knowledge above:
-1. Recommend 2-3 specific haircut styles that suit this person.
-2. For each style, explain WHY it works for their face shape and hair type.
-3. Mention one style to AVOID and why.
-4. Keep the tone friendly and professional.
+Recommend 2-3 specific haircut styles that suit this person, plus one style to avoid.
+
+Respond with JSON only, using exactly this structure:
+{{
+  "summary": "One or two friendly sentences introducing your recommendations",
+  "haircuts": [
+    {{
+      "name": "Style name",
+      "why_it_works": "Why this style suits their face shape, hair type, and texture",
+      "styling_tip": "How to style it and which product to use",
+      "maintenance": "How often to trim and the upkeep required"
+    }}
+  ],
+  "style_to_avoid": "Name of one style to avoid",
+  "avoid_reason": "Why they should avoid it"
+}}
+
+Base every field on the knowledge provided. Keep the tone friendly and professional.
 """

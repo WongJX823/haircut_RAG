@@ -9,7 +9,7 @@ from pathlib import Path
 from dataclasses import dataclass, field
 
 from vision.feature_extractor import FaceFeatures, merge_features, check_same_person
-from rag.recommender import recommend
+from rag.recommender import recommend, StructuredRecommendation
 from services.validator import (
     validate_image, validate_video, validate_text,
     validate_index_exists
@@ -23,7 +23,7 @@ from services.text_handler import handle_text
 class PipelineResult:
     success: bool
     features: FaceFeatures = None
-    recommendation: str = ""
+    recommendation: StructuredRecommendation = None
     retrieved_context: list = field(default_factory=list)
     query_used: str = ""
     input_sources: list = field(default_factory=list)
