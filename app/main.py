@@ -1,52 +1,127 @@
 """
-Streamlit web app — entry point.
-Run: streamlit run app/main.py
+Presentation layer — Streamlit UI only.
+No business logic here. All processing goes through services/pipeline.py.
+Run: python -m streamlit run app/main.py
 """
 
-import os
-import tempfile
 import streamlit as st
 from dotenv import load_dotenv
-from vision.feature_extractor import extract_features
-from rag.recommender import recommend
+from services.validator import validate_api_key
+from services.pipeline import run_pipeline
 
 load_dotenv()
 
 st.set_page_config(page_title="HaircutAI", page_icon="✂️", layout="centered")
 st.title("✂️ HaircutAI — Personalised Haircut Recommender")
-st.caption("Upload a clear front-facing photo to get a haircut recommendation based on your face shape and hair type.")
+st.caption("Get a personalised haircut recommendation based on your face shape and hair type.")
 
-uploaded = st.file_uploader("Upload your photo", type=["jpg", "jpeg", "png"])
+# Validate API key on startup
+api_check = validate_api_key()
+if not api_check.valid:
+    st.error(f"⚠️ Configuration Error: {api_check.error}")
+    st.stop()
 
-if uploaded:
-    st.image(uploaded, caption="Your photo", width=300)
+# ── INPUT MODE SELECTION ─────────────────────────────────────────────────────
+st.subheader("Choose Input Method")
+input_mode = st.radio(
+    label="How would you like to provide your photo?",
+    options=["📷 Upload Image", "🎥 Upload Video", "✏️ Describe Yourself"],
+    horizontal=True,
+    label_visibility="collapsed",
+)
 
-    if st.button("Analyse & Recommend"):
-        with st.spinner("Analysing your face features..."):
-            suffix = os.path.splitext(uploaded.name)[1]
-            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
-                tmp.write(uploaded.read())
-                tmp_path = tmp.name
+result = None
 
-            try:
-                features = extract_features(tmp_path)
-            finally:
-                os.unlink(tmp_path)
+# ── IMAGE INPUT ──────────────────────────────────────────────────────────────
+if input_mode == "📷 Upload Image":
+    uploaded = st.file_uploader(
+        "Upload a clear front-facing photo",
+        type=["jpg", "jpeg", "png", "webp"],
+        help="Max 5MB. Front-facing photo works best.",
+    )
+    if uploaded:
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.image(uploaded, caption="Your photo", use_container_width=True)
 
-        st.subheader("Detected Features")
-        col1, col2, col3, col4 = st.columns(4)
-        col1.metric("Face Shape", features.face_shape)
-        col2.metric("Hair Type", features.hair_type)
-        col3.metric("Hair Texture", features.hair_texture)
-        col4.metric("Gender", features.gender)
+        if st.button("✂️ Analyse & Recommend", type="primary", use_container_width=True):
+            with st.spinner("Analysing your features..."):
+                result = run_pipeline(
+                    input_type="image",
+                    file_bytes=uploaded.getvalue(),
+                    filename=uploaded.name,
+                )
 
-        with st.spinner("Retrieving haircut knowledge and generating recommendation..."):
-            result = recommend(features)
+# ── VIDEO INPUT ──────────────────────────────────────────────────────────────
+elif input_mode == "🎥 Upload Video":
+    st.info("A short 3-5 second face video works best. The system will extract your clearest frame automatically.")
+    uploaded = st.file_uploader(
+        "Upload a short face video",
+        type=["mp4", "mov", "avi", "mkv", "webm"],
+        help="Max 50MB.",
+    )
+    if uploaded:
+        st.video(uploaded)
 
-        st.subheader("Your Personalised Recommendation")
-        st.write(result["recommendation"])
+        if st.button("✂️ Extract Frame & Recommend", type="primary", use_container_width=True):
+            with st.spinner("Extracting best frame from video and analysing..."):
+                result = run_pipeline(
+                    input_type="video",
+                    file_bytes=uploaded.getvalue(),
+                    filename=uploaded.name,
+                )
 
-        with st.expander("Knowledge retrieved from database"):
-            for i, chunk in enumerate(result["retrieved_context"], 1):
-                st.markdown(f"**Chunk {i}:**")
-                st.text(chunk)
+# ── TEXT INPUT ───────────────────────────────────────────────────────────────
+elif input_mode == "✏️ Describe Yourself":
+    st.info("Don't have a photo? Describe your face and hair features and we'll recommend a haircut.")
+    example = "I have a round face shape with curly, thick hair. I am male."
+    user_text = st.text_area(
+        "Describe your face shape, hair type, hair texture, and gender",
+        placeholder=example,
+        height=120,
+        max_chars=1000,
+    )
+    st.caption(f"Example: *{example}*")
+
+    if user_text:
+        if st.button("✂️ Get Recommendation", type="primary", use_container_width=True):
+            with st.spinner("Parsing your description and generating recommendation..."):
+                result = run_pipeline(
+                    input_type="text",
+                    user_text=user_text,
+                )
+
+# ── RESULTS ──────────────────────────────────────────────────────────────────
+if result is not None:
+    if not result.success:
+        st.error(f"❌ {result.error}")
+        st.stop()
+
+    st.divider()
+
+    # Input type badge
+    badge = {"image": "📷 Image", "video": "🎥 Video", "text": "✏️ Text"}.get(result.input_type, "")
+    st.caption(f"Input method: {badge}")
+
+    # Detected features
+    st.subheader("Detected Features")
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Face Shape",   result.features.face_shape)
+    col2.metric("Hair Type",    result.features.hair_type)
+    col3.metric("Hair Texture", result.features.hair_texture)
+    col4.metric("Gender",       result.features.gender)
+
+    st.divider()
+
+    # Recommendation
+    st.subheader("Your Personalised Recommendation")
+    st.write(result.recommendation)
+
+    st.divider()
+
+    # Knowledge sources
+    with st.expander("📚 Knowledge sources used"):
+        st.caption(f"Query: `{result.query_used}`")
+        for i, chunk in enumerate(result.retrieved_context, 1):
+            st.markdown(f"**Source {i}:**")
+            st.text(chunk)
