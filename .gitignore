@@ -5,3 +5,4 @@ knowledge_base/index/
 *.faiss
 *.pkl
 .streamlit/
+.pytest_cache/

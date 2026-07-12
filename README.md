@@ -66,6 +66,13 @@ utils/scrape_article.py   CLI to scrape an article URL into the knowledge base
 run.bat
 ```
 
+## Running tests
+
+```
+pip install -r requirements-dev.txt
+python -m pytest tests/
+```
+
 ## Extending the knowledge base
 
 Add more `.txt` guides to `knowledge_base/docs/`, or scrape an article directly:
