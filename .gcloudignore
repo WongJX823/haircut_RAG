@@ -1,0 +1,15 @@
+# Controls what is uploaded when deploying with `gcloud run deploy --source`.
+# Unlike the default behaviour, this deliberately does NOT exclude
+# knowledge_base/index/ — baking the prebuilt FAISS index into the image
+# avoids re-embedding (and re-billing) on every cold start.
+.git
+.gitignore
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+diagrams/
+*.docx
+run.bat
+requirements-dev.txt

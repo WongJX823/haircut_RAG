@@ -66,6 +66,32 @@ utils/scrape_article.py   CLI to scrape an article URL into the knowledge base
 run.bat
 ```
 
+## Docker
+
+Build the FAISS index first (`python -m rag.build_index`) so it gets baked into the image — otherwise the container re-embeds the knowledge base on every cold start. Then:
+
+```
+docker build -t haircut-ai .
+docker run -p 8501:8501 -e OPENAI_API_KEY=sk-... haircut-ai
+```
+
+Open http://localhost:8501. The API key is passed as an environment variable at runtime — it is never baked into the image (`.env` is dockerignored).
+
+## Deploying to Google Cloud Run
+
+With the [gcloud CLI](https://cloud.google.com/sdk/docs/install) installed and a GCP project set up:
+
+```
+gcloud run deploy haircut-ai \
+  --source . \
+  --region asia-southeast1 \
+  --memory 1Gi \
+  --allow-unauthenticated \
+  --set-env-vars OPENAI_API_KEY=sk-...
+```
+
+Cloud Run builds the image from the `Dockerfile`, injects `PORT` automatically, and gives you a public HTTPS URL. `.gcloudignore` ensures the prebuilt index is uploaded with the source (for real projects, prefer `--set-secrets` with Secret Manager over `--set-env-vars` for the API key).
+
 ## Running tests
 
 ```

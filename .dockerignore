@@ -1,0 +1,13 @@
+.git
+.env
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+tests
+diagrams
+*.docx
+run.bat
+README.md
+LICENSE
+requirements-dev.txt
