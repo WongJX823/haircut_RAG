@@ -21,75 +21,49 @@ if not api_check.valid:
     st.error(f"⚠️ Configuration Error: {api_check.error}")
     st.stop()
 
-# ── INPUT MODE SELECTION ─────────────────────────────────────────────────────
-st.subheader("Choose Input Method")
-input_mode = st.radio(
-    label="How would you like to provide your photo?",
-    options=["📷 Upload Image", "🎥 Upload Video", "✏️ Describe Yourself"],
-    horizontal=True,
-    label_visibility="collapsed",
-)
+# ── INPUTS ────────────────────────────────────────────────────────────────────
+st.subheader("Provide Your Details")
+st.caption("Fill in any combination below — a photo, a video, a written description, or several at once. We'll combine whatever you give us.")
 
 result = None
 
-# ── IMAGE INPUT ──────────────────────────────────────────────────────────────
-if input_mode == "📷 Upload Image":
-    uploaded = st.file_uploader(
-        "Upload a clear front-facing photo",
-        type=["jpg", "jpeg", "png", "webp"],
-        help="Max 5MB. Front-facing photo works best.",
-    )
-    if uploaded:
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            st.image(uploaded, caption="Your photo", use_container_width=True)
+image_uploaded = st.file_uploader(
+    "📷 Upload a clear front-facing photo",
+    type=["jpg", "jpeg", "png", "webp"],
+    help="Max 5MB. Front-facing photo works best.",
+)
+if image_uploaded:
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image(image_uploaded, caption="Your photo", use_container_width=True)
 
-        if st.button("✂️ Analyse & Recommend", type="primary", use_container_width=True):
-            with st.spinner("Analysing your features..."):
-                result = run_pipeline(
-                    input_type="image",
-                    file_bytes=uploaded.getvalue(),
-                    filename=uploaded.name,
-                )
+video_uploaded = st.file_uploader(
+    "🎥 Upload a short face video",
+    type=["mp4", "mov", "avi", "mkv", "webm"],
+    help="Max 50MB. A short 3-5 second face video works best — we'll extract your clearest frame automatically.",
+)
+if video_uploaded:
+    st.video(video_uploaded)
 
-# ── VIDEO INPUT ──────────────────────────────────────────────────────────────
-elif input_mode == "🎥 Upload Video":
-    st.info("A short 3-5 second face video works best. The system will extract your clearest frame automatically.")
-    uploaded = st.file_uploader(
-        "Upload a short face video",
-        type=["mp4", "mov", "avi", "mkv", "webm"],
-        help="Max 50MB.",
-    )
-    if uploaded:
-        st.video(uploaded)
+example = "I have a round face shape with curly, thick hair. I am male."
+user_text = st.text_area(
+    "✏️ Describe your face shape, hair type, hair texture, and gender",
+    placeholder=example,
+    height=120,
+    max_chars=1000,
+)
+st.caption(f"Example: *{example}*")
 
-        if st.button("✂️ Extract Frame & Recommend", type="primary", use_container_width=True):
-            with st.spinner("Extracting best frame from video and analysing..."):
-                result = run_pipeline(
-                    input_type="video",
-                    file_bytes=uploaded.getvalue(),
-                    filename=uploaded.name,
-                )
-
-# ── TEXT INPUT ───────────────────────────────────────────────────────────────
-elif input_mode == "✏️ Describe Yourself":
-    st.info("Don't have a photo? Describe your face and hair features and we'll recommend a haircut.")
-    example = "I have a round face shape with curly, thick hair. I am male."
-    user_text = st.text_area(
-        "Describe your face shape, hair type, hair texture, and gender",
-        placeholder=example,
-        height=120,
-        max_chars=1000,
-    )
-    st.caption(f"Example: *{example}*")
-
-    if user_text:
-        if st.button("✂️ Get Recommendation", type="primary", use_container_width=True):
-            with st.spinner("Parsing your description and generating recommendation..."):
-                result = run_pipeline(
-                    input_type="text",
-                    user_text=user_text,
-                )
+has_input = bool(image_uploaded or video_uploaded or user_text)
+if st.button("✂️ Analyse & Recommend", type="primary", use_container_width=True, disabled=not has_input):
+    with st.spinner("Analysing your inputs and generating a recommendation..."):
+        result = run_pipeline(
+            image_bytes=image_uploaded.getvalue() if image_uploaded else None,
+            image_filename=image_uploaded.name if image_uploaded else None,
+            video_bytes=video_uploaded.getvalue() if video_uploaded else None,
+            video_filename=video_uploaded.name if video_uploaded else None,
+            user_text=user_text or None,
+        )
 
 # ── RESULTS ──────────────────────────────────────────────────────────────────
 if result is not None:
@@ -99,8 +73,9 @@ if result is not None:
 
     st.divider()
 
-    # Input type badge
-    badge = {"image": "📷 Image", "video": "🎥 Video", "text": "✏️ Text"}.get(result.input_type, "")
+    # Input sources badge
+    labels = {"image": "📷 Image", "video": "🎥 Video", "text": "✏️ Text"}
+    badge = " + ".join(labels[s] for s in result.input_sources)
     st.caption(f"Input method: {badge}")
 
     # Detected features

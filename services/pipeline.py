@@ -8,11 +8,11 @@ import tempfile
 from pathlib import Path
 from dataclasses import dataclass, field
 
-from vision.feature_extractor import FaceFeatures
+from vision.feature_extractor import FaceFeatures, merge_features
 from rag.recommender import recommend
 from services.validator import (
     validate_image, validate_video, validate_text,
-    validate_index_exists, get_input_type
+    validate_index_exists
 )
 from services.image_handler import handle_image
 from services.video_handler import handle_video
@@ -26,48 +26,56 @@ class PipelineResult:
     recommendation: str = ""
     retrieved_context: list = field(default_factory=list)
     query_used: str = ""
-    input_type: str = ""
+    input_sources: list = field(default_factory=list)
     error: str = ""
 
 
 def run_pipeline(
-    input_type: str,
-    file_bytes: bytes = None,
-    filename: str = None,
+    image_bytes: bytes = None,
+    image_filename: str = None,
+    video_bytes: bytes = None,
+    video_filename: str = None,
     user_text: str = None,
 ) -> PipelineResult:
 
-    # Validate knowledge base exists for all input types
+    if not image_bytes and not video_bytes and not user_text:
+        return PipelineResult(success=False, error="Please provide at least one of: image, video, or description.")
+
+    # Validate knowledge base exists
     idx_check = validate_index_exists()
     if not idx_check.valid:
         return PipelineResult(success=False, error=idx_check.error)
 
     try:
-        # ── TEXT INPUT ──────────────────────────────────────────────
-        if input_type == "text":
+        # Extract features from every input provided, in priority order
+        # (image > video > text) so merge_features breaks ties consistently.
+        candidates: list[FaceFeatures] = []
+        input_sources: list[str] = []
+
+        if image_bytes:
+            check = validate_image(image_bytes, image_filename)
+            if not check.valid:
+                return PipelineResult(success=False, error=check.error)
+            candidates.append(_run_with_tempfile(image_bytes, image_filename, handle_image))
+            input_sources.append("image")
+
+        if video_bytes:
+            check = validate_video(video_bytes, video_filename)
+            if not check.valid:
+                return PipelineResult(success=False, error=check.error)
+            candidates.append(_run_with_tempfile(video_bytes, video_filename, handle_video))
+            input_sources.append("video")
+
+        if user_text:
             check = validate_text(user_text)
             if not check.valid:
                 return PipelineResult(success=False, error=check.error)
-            features = handle_text(user_text)
+            candidates.append(handle_text(user_text))
+            input_sources.append("text")
 
-        # ── IMAGE INPUT ─────────────────────────────────────────────
-        elif input_type == "image":
-            check = validate_image(file_bytes, filename)
-            if not check.valid:
-                return PipelineResult(success=False, error=check.error)
-            features = _run_with_tempfile(file_bytes, filename, handle_image)
+        features = merge_features(candidates)
 
-        # ── VIDEO INPUT ─────────────────────────────────────────────
-        elif input_type == "video":
-            check = validate_video(file_bytes, filename)
-            if not check.valid:
-                return PipelineResult(success=False, error=check.error)
-            features = _run_with_tempfile(file_bytes, filename, handle_video)
-
-        else:
-            return PipelineResult(success=False, error=f"Unknown input type: {input_type}")
-
-        # ── RAG PIPELINE (same for all input types) ─────────────────
+        # ── RAG PIPELINE ──────────────────────────────────────────────
         result = recommend(features)
 
         return PipelineResult(
@@ -76,7 +84,7 @@ def run_pipeline(
             recommendation=result["recommendation"],
             retrieved_context=result["retrieved_context"],
             query_used=result["query_used"],
-            input_type=input_type,
+            input_sources=input_sources,
         )
 
     except Exception as e:

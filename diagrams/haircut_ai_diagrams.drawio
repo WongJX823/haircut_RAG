@@ -1,242 +1,352 @@
 <mxfile host="app.diagrams.net" pages="3">
   <diagram id="flowchart" name="Flowchart">
-    <mxGraphModel dx="1253" dy="646" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1200" math="0" shadow="0">
+    <mxGraphModel dx="1202" dy="624" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1180" pageHeight="1600" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="fc_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=16;fontStyle=1;" value="System Flowchart — HaircutAI Multimodal RAG" vertex="1">
-          <mxGeometry height="40" width="600" x="125" y="20" as="geometry" />
+        <mxCell id="fc_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=16;fontStyle=1;" value="System Flowchart — HaircutAI Multimodal RAG (multi-input merge)" vertex="1">
+          <mxGeometry height="40" width="700" x="240" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="O-Ems7qKC6bvuTVAie0F-2" edge="1" parent="1" source="fc_start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="fc1" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="fc_start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#000000;fontColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;arcSize=50;" value="START" vertex="1">
-          <mxGeometry height="45" width="150" x="325" y="75" as="geometry" />
+          <mxGeometry height="45" width="150" x="515" y="75" as="geometry" />
         </mxCell>
         <mxCell id="fc1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="User opens Streamlit App" vertex="1">
-          <mxGeometry height="45" width="250" x="275" y="155" as="geometry" />
+          <mxGeometry height="45" width="250" x="465" y="155" as="geometry" />
         </mxCell>
-        <mxCell id="fc2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="User uploads facial photo&#xa;(JPG / PNG)" vertex="1">
-          <mxGeometry height="45" width="250" x="275" y="235" as="geometry" />
+        <mxCell id="img_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="📷 Upload Photo&#xa;(optional — JPG/PNG/WEBP)" vertex="1">
+          <mxGeometry height="60" width="230" x="210" y="235" as="geometry" />
         </mxCell>
-        <mxCell id="fc_d1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Photo uploaded&#xa;successfully?" vertex="1">
-          <mxGeometry height="70" width="200" x="300" y="315" as="geometry" />
+        <mxCell id="vid_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="🎥 Upload Video&#xa;(optional — MP4/MOV/AVI/MKV/WEBM)" vertex="1">
+          <mxGeometry height="60" width="230" x="475" y="235" as="geometry" />
         </mxCell>
-        <mxCell id="fc_no1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Show error:&#xa;Please upload a photo" vertex="1">
-          <mxGeometry height="50" width="180" x="560" y="325" as="geometry" />
+        <mxCell id="txt_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="✏️ Describe Yourself&#xa;(optional — free text)" vertex="1">
+          <mxGeometry height="60" width="230" x="740" y="235" as="geometry" />
         </mxCell>
-        <mxCell id="fc_e_no1" edge="1" parent="1" source="fc_d1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc_no1">
+        <mxCell id="fe_i1" edge="1" parent="1" source="fc1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="img_in">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="fc_no1_lbl" connectable="0" parent="fc_e_no1" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
-          <mxGeometry relative="0.5" as="geometry" />
+        <mxCell id="fe_i2" edge="1" parent="1" source="fc1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid_in">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="fc_loop1" edge="1" parent="1" source="fc_no1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc2">
+        <mxCell id="fe_i3" edge="1" parent="1" source="fc1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="txt_in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fc_d1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="At least one input&#xa;provided?" vertex="1">
+          <mxGeometry height="70" width="230" x="475" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_d1a" edge="1" parent="1" source="img_in" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="700" y="350" />
-              <mxPoint x="700" y="257" />
-              <mxPoint x="525" y="257" />
+              <mxPoint x="325" y="365" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="fc3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="P1: Preprocess Image&#xa;(resize, encode to Base64)" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="420" as="geometry" />
-        </mxCell>
-        <mxCell id="fc4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="P2: Send image + vision prompt&#xa;to GPT-4o Vision API" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="505" as="geometry" />
-        </mxCell>
-        <mxCell id="fc5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Receive JSON response&#xa;{face_shape, hair_type, texture, gender}" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="590" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_d2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="JSON valid &amp;&#xa;parseable?" vertex="1">
-          <mxGeometry height="70" width="200" x="300" y="673" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_no2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Show error:&#xa;Could not analyse photo" vertex="1">
-          <mxGeometry height="50" width="180" x="560" y="683" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_e_no2" edge="1" parent="1" source="fc_d2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc_no2">
+        <mxCell id="fe_d1b" edge="1" parent="1" source="vid_in" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="fc_no2_lbl" connectable="0" parent="fc_e_no2" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
-          <mxGeometry relative="0.5" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_loop2" edge="1" parent="1" source="fc_no2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc2">
+        <mxCell id="fe_d1c" edge="1" parent="1" source="txt_in" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="760" y="708" />
-              <mxPoint x="760" y="257" />
+              <mxPoint x="855" y="340" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="fc6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="P3: Validate &amp; classify features&#xa;via Pydantic schema" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="778" as="geometry" />
+        <mxCell id="fc_no1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Show error:&#xa;Please provide at least&#xa;one input" vertex="1">
+          <mxGeometry height="60" width="170" x="990" y="340" as="geometry" />
         </mxCell>
-        <mxCell id="fc7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" value="P4: Build semantic query string&#xa;via LangChain PromptTemplate" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="863" as="geometry" />
-        </mxCell>
-        <mxCell id="fc8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="P6: Search FAISS vector index&#xa;retrieve Top-4 knowledge chunks" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="948" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_d3" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Relevant chunks&#xa;found?" vertex="1">
-          <mxGeometry height="70" width="200" x="300" y="1030" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_no3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Warn: No relevant&#xa;knowledge found" vertex="1">
-          <mxGeometry height="50" width="180" x="560" y="1040" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_e_no3" edge="1" parent="1" source="fc_d3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc_no3">
+        <mxCell id="fe_no1" edge="1" parent="1" source="fc_d1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc_no1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="fc_no3_lbl" connectable="0" parent="fc_e_no3" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
+        <mxCell id="fe_no1_lbl" connectable="0" parent="fe_no1" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
           <mxGeometry relative="0.5" as="geometry" />
         </mxCell>
-        <mxCell id="fc9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="P7: Send chunks + features to GPT-4o&#xa;Generate grounded recommendation" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="1133" as="geometry" />
-        </mxCell>
-        <mxCell id="fc10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="P8: Display results on Streamlit UI&#xa;(features + recommendation + sources)" vertex="1">
-          <mxGeometry height="50" width="250" x="275" y="1218" as="geometry" />
-        </mxCell>
-        <mxCell id="fc_end" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#000000;fontColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;arcSize=50;" value="END" vertex="1">
-          <mxGeometry height="45" width="150" x="325" y="1303" as="geometry" />
-        </mxCell>
-        <mxCell id="fe1" edge="1" parent="1" source="fc_start" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe2" edge="1" parent="1" source="fc1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc2">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe3" edge="1" parent="1" source="fc2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe4" edge="1" parent="1" source="fc_d1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc3">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe4_lbl" connectable="0" parent="fe4" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="Yes" vertex="1">
-          <mxGeometry relative="0.5" as="geometry">
-            <mxPoint x="10" y="-12" as="offset" />
+        <mxCell id="fe_loop1" edge="1" parent="1" source="fc_no1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="160" />
+            </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="fe5" edge="1" parent="1" source="fc3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc4">
+        <mxCell id="fc_idx_d" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Knowledge base&#xa;index exists?" vertex="1">
+          <mxGeometry height="70" width="230" x="475" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_d1y" edge="1" parent="1" source="fc_d1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_idx_d">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="fe6" edge="1" parent="1" source="fc4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc5">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe7" edge="1" parent="1" source="fc5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d2">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe8" edge="1" parent="1" source="fc_d2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc6">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe8_lbl" connectable="0" parent="fe8" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="Yes" vertex="1">
+        <mxCell id="fe_d1y_lbl" connectable="0" parent="fe_d1y" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="Yes" vertex="1">
           <mxGeometry relative="0.5" as="geometry">
             <mxPoint x="10" y="-10" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fe9" edge="1" parent="1" source="fc6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc7">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="fc_no_idx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Show error:&#xa;Run python -m&#xa;rag.build_index&#xa;(app stops)" vertex="1">
+          <mxGeometry height="70" width="170" x="990" y="430" as="geometry" />
         </mxCell>
-        <mxCell id="fe10" edge="1" parent="1" source="fc7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc8">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe11" edge="1" parent="1" source="fc8" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_d3">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe12" edge="1" parent="1" source="fc_d3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc9">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe12_lbl" connectable="0" parent="fe12" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="Yes" vertex="1">
-          <mxGeometry relative="0.5" as="geometry">
-            <mxPoint x="10" y="-17" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="fe13" edge="1" parent="1" source="fc9" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc10">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe14" edge="1" parent="1" source="fc10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_end">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fe15" edge="1" parent="1" source="fc_no3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" target="fc9">
+        <mxCell id="fe_no_idx" edge="1" parent="1" source="fc_idx_d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="fc_no_idx">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="700" y="1065" />
-              <mxPoint x="700" y="1158" />
-              <mxPoint x="525" y="1158" />
+              <mxPoint x="840" y="450" />
+              <mxPoint x="840" y="450" />
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="fe_no_idx_lbl" connectable="0" parent="fe_no_idx" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="img1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Validate image&#xa;(type, size, magic bytes)" vertex="1">
+          <mxGeometry height="50" width="230" x="210" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="img2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="handle_image():&#xa;send to GPT-4o Vision API" vertex="1">
+          <mxGeometry height="50" width="230" x="210" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="img3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Parse response →&#xa;FaceFeatures (image)" vertex="1">
+          <mxGeometry height="50" width="230" x="210" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_branch_img" edge="1" parent="1" source="fc_idx_d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="img1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_branch_img_lbl" connectable="0" parent="fe_branch_img" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="Yes" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_img1" edge="1" parent="1" source="img1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="img2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_img2" edge="1" parent="1" source="img2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="img3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vid1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Validate video&#xa;(type, size)" vertex="1">
+          <mxGeometry height="50" width="230" x="475" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="vid2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="handle_video():&#xa;extract sharpest frame&#xa;(Laplacian variance, OpenCV)" vertex="1">
+          <mxGeometry height="50" width="230" x="475" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="vid3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="handle_image():&#xa;send frame to GPT-4o Vision API" vertex="1">
+          <mxGeometry height="50" width="230" x="475" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="vid4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Parse response →&#xa;FaceFeatures (video)" vertex="1">
+          <mxGeometry height="50" width="230" x="475" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_branch_vid" edge="1" parent="1" source="fc_idx_d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_vid1" edge="1" parent="1" source="vid1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_vid2" edge="1" parent="1" source="vid2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_vid3" edge="1" parent="1" source="vid3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="vid4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="txt1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Validate text&#xa;(10–1000 chars)" vertex="1">
+          <mxGeometry height="50" width="230" x="740" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="txt2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="handle_text():&#xa;GPT-4o-mini parses description" vertex="1">
+          <mxGeometry height="50" width="230" x="740" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="txt3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Parse response →&#xa;FaceFeatures (text)" vertex="1">
+          <mxGeometry height="50" width="230" x="740" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_branch_txt" edge="1" parent="1" source="fc_idx_d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="txt1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_txt1" edge="1" parent="1" source="txt1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="txt2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_txt2" edge="1" parent="1" source="txt2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="txt3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fc_val_err" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Show error:&#xa;invalid file/type/size or&#xa;description too short" vertex="1">
+          <mxGeometry height="70" width="170" x="990" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_val_img" edge="1" parent="1" source="img1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" target="fc_val_err">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_val_lbl" connectable="0" parent="fe_val_img" style="edgeLabel;html=1;fontSize=10;fontStyle=1;" value="No (any branch)" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_val_vid" edge="1" parent="1" source="vid1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" target="fc_val_err">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_val_txt" edge="1" parent="1" source="txt1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" target="fc_val_err">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="merge1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="merge_features() [pipeline layer]:&#xa;majority vote per field&#xa;(tie-break: image &gt; video &gt; text)" vertex="1">
+          <mxGeometry height="60" width="380" x="400" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge_img" edge="1" parent="1" source="img3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge_img_lbl" connectable="0" parent="fe_merge_img" style="edgeLabel;html=1;fontSize=10;" value="if provided" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge_vid" edge="1" parent="1" source="vid4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge_vid_lbl" connectable="0" parent="fe_merge_vid" style="edgeLabel;html=1;fontSize=10;" value="if provided" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge_txt" edge="1" parent="1" source="txt3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge_txt_lbl" connectable="0" parent="fe_merge_txt" style="edgeLabel;html=1;fontSize=10;" value="if provided" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="merge2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Final FaceFeatures&#xa;(face_shape, hair_type, hair_texture, gender)" vertex="1">
+          <mxGeometry height="50" width="250" x="465" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_merge2" edge="1" parent="1" source="merge1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="merge2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step_query" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" value="Build semantic query string&#xa;from merged features" vertex="1">
+          <mxGeometry height="50" width="250" x="465" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_q" edge="1" parent="1" source="merge2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_query">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step_faiss" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="Search FAISS vector index&#xa;retrieve Top-4 knowledge chunks" vertex="1">
+          <mxGeometry height="50" width="250" x="465" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_faiss" edge="1" parent="1" source="step_query" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_faiss">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decision_chunks" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Relevant chunks&#xa;found?" vertex="1">
+          <mxGeometry height="70" width="200" x="490" y="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_chunks" edge="1" parent="1" source="step_faiss" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="decision_chunks">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="no_chunks" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="Warn: No relevant&#xa;knowledge found" vertex="1">
+          <mxGeometry height="50" width="170" x="990" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_no_chunks" edge="1" parent="1" source="decision_chunks" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="no_chunks">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_no_chunks_lbl" connectable="0" parent="fe_no_chunks" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="No" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="step_recommend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Send chunks + merged features&#xa;to GPT-4o → generate grounded&#xa;recommendation" vertex="1">
+          <mxGeometry height="60" width="250" x="465" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_recommend_yes" edge="1" parent="1" source="decision_chunks" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_recommend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_recommend_yes_lbl" connectable="0" parent="fe_recommend_yes" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="Yes" vertex="1">
+          <mxGeometry relative="0.5" as="geometry">
+            <mxPoint x="10" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fe_no_chunks_continue" edge="1" parent="1" source="no_chunks" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" target="step_recommend">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1075" y="1270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step_display" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="Display results on Streamlit UI&#xa;(features + recommendation +&#xa;sources + input methods badge)" vertex="1">
+          <mxGeometry height="60" width="250" x="465" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_display" edge="1" parent="1" source="step_recommend" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="step_display">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fc_end" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#000000;fontColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;arcSize=50;" value="END" vertex="1">
+          <mxGeometry height="45" width="150" x="515" y="1430" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_end" edge="1" parent="1" source="step_display" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;" target="fc_end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="offline_box" parent="1" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=center;fontSize=11;fontStyle=1;rounded=1;" value="OFFLINE PIPELINE (run once by admin)" vertex="1">
-          <mxGeometry height="35" width="220" x="30" y="863" as="geometry" />
+          <mxGeometry height="35" width="220" x="30" y="1080" as="geometry" />
         </mxCell>
         <mxCell id="offline1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;" value="1. Add .txt docs to knowledge_base/docs/" vertex="1">
-          <mxGeometry height="25" width="220" x="30" y="903" as="geometry" />
+          <mxGeometry height="25" width="220" x="30" y="1120" as="geometry" />
         </mxCell>
         <mxCell id="offline2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;" value="2. Run: python -m rag.build_index" vertex="1">
-          <mxGeometry height="25" width="220" x="30" y="923" as="geometry" />
+          <mxGeometry height="25" width="220" x="30" y="1140" as="geometry" />
         </mxCell>
         <mxCell id="offline3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;" value="3. FAISS index saved to disk" vertex="1">
-          <mxGeometry height="25" width="220" x="30" y="943" as="geometry" />
+          <mxGeometry height="25" width="220" x="30" y="1160" as="geometry" />
         </mxCell>
         <mxCell id="fc_leg_title" parent="1" style="text;html=1;fontStyle=1;fontSize=12;" value="Legend" vertex="1">
-          <mxGeometry height="20" width="120" x="50" y="1010" as="geometry" />
+          <mxGeometry height="20" width="120" x="30" y="1230" as="geometry" />
         </mxCell>
         <mxCell id="fc_leg1" parent="1" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="User Action" vertex="1">
-          <mxGeometry height="28" width="130" x="50" y="1035" as="geometry" />
+          <mxGeometry height="28" width="130" x="30" y="1255" as="geometry" />
         </mxCell>
         <mxCell id="fc_leg2" parent="1" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="System Process" vertex="1">
-          <mxGeometry height="28" width="130" x="50" y="1070" as="geometry" />
+          <mxGeometry height="28" width="130" x="30" y="1290" as="geometry" />
         </mxCell>
-        <mxCell id="fc_leg3" parent="1" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" value="OpenAI API Call" vertex="1">
-          <mxGeometry height="28" width="130" x="50" y="1105" as="geometry" />
+        <mxCell id="fc_leg3" parent="1" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" value="OpenAI API Call / Error" vertex="1">
+          <mxGeometry height="28" width="150" x="30" y="1325" as="geometry" />
         </mxCell>
         <mxCell id="fc_leg4" parent="1" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="RAG / Retrieval" vertex="1">
-          <mxGeometry height="28" width="130" x="50" y="1140" as="geometry" />
+          <mxGeometry height="28" width="130" x="30" y="1360" as="geometry" />
         </mxCell>
         <mxCell id="fc_leg5" parent="1" style="rhombus;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="Decision" vertex="1">
-          <mxGeometry height="40" width="110" x="60" y="1180" as="geometry" />
+          <mxGeometry height="40" width="110" x="40" y="1400" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram id="usecase" name="Use Case Diagram">
-    <mxGraphModel dx="1517" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1703" dy="883" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="950" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="uc_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" value="Use Case Diagram — HaircutAI Multimodal RAG System" vertex="1">
-          <mxGeometry height="40" width="760" x="200" y="20" as="geometry" />
+          <mxGeometry height="40" width="800" x="220" y="20" as="geometry" />
         </mxCell>
         <mxCell id="uc_boundary" parent="1" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;fontColor=#333333;" value="HaircutAI System" vertex="1">
-          <mxGeometry height="700" width="700" x="250" y="90" as="geometry" />
+          <mxGeometry height="780" width="870" x="250" y="90" as="geometry" />
         </mxCell>
         <mxCell id="uc1" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="Upload Facial Photo" vertex="1">
-          <mxGeometry height="55" width="200" x="80" y="60" as="geometry" />
+          <mxGeometry height="55" width="190" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc1b" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="Upload Face Video" vertex="1">
+          <mxGeometry height="55" width="190" x="230" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc1c" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="Describe Yourself&#xa;(Text Input)" vertex="1">
+          <mxGeometry height="55" width="190" x="500" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2b" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Extract Sharpest&#xa;Video Frame (OpenCV)" vertex="1">
+          <mxGeometry height="55" width="190" x="230" y="140" as="geometry" />
         </mxCell>
         <mxCell id="uc2" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Analyse Face &amp; Hair Features&#xa;via GPT-4o Vision" vertex="1">
-          <mxGeometry height="55" width="200" x="80" y="155" as="geometry" />
+          <mxGeometry height="60" width="210" x="20" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2c" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Parse Text Description&#xa;via GPT-4o-mini" vertex="1">
+          <mxGeometry height="60" width="210" x="440" y="230" as="geometry" />
         </mxCell>
         <mxCell id="uc3" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Classify Face Shape&#xa;(Oval / Round / Square / Heart)" vertex="1">
-          <mxGeometry height="55" width="200" x="210" y="290" as="geometry" />
+          <mxGeometry height="55" width="210" y="330" as="geometry" />
         </mxCell>
         <mxCell id="uc4" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Classify Hair Type&#xa;(Straight / Wavy / Curly / Coily)" vertex="1">
-          <mxGeometry height="55" width="200" y="296" as="geometry" />
+          <mxGeometry height="55" width="210" x="230" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_merge" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Merge Multi-Modal Features&#xa;(majority vote, priority&#xa;image &gt; video &gt; text)" vertex="1">
+          <mxGeometry height="65" width="260" x="150" y="420" as="geometry" />
         </mxCell>
         <mxCell id="uc5" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="Retrieve Relevant Knowledge&#xa;(FAISS Semantic Search)" vertex="1">
-          <mxGeometry height="55" width="200" x="80" y="440" as="geometry" />
+          <mxGeometry height="55" width="260" x="150" y="515" as="geometry" />
         </mxCell>
         <mxCell id="uc6" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="Generate Haircut Recommendation&#xa;(GPT-4o + RAG)" vertex="1">
-          <mxGeometry height="55" width="200" x="80" y="535" as="geometry" />
+          <mxGeometry height="55" width="260" x="150" y="600" as="geometry" />
         </mxCell>
         <mxCell id="uc7" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="View Recommendation&#xa;&amp; Source Knowledge" vertex="1">
-          <mxGeometry height="55" width="200" x="80" y="620" as="geometry" />
-        </mxCell>
-        <mxCell id="uc8" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Upload Haircut&#xa;Knowledge Documents" vertex="1">
-          <mxGeometry height="55" width="200" x="420" y="60" as="geometry" />
-        </mxCell>
-        <mxCell id="uc9" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Build FAISS Vector Index&#xa;(run build_index.py)" vertex="1">
-          <mxGeometry height="55" width="200" x="420" y="165" as="geometry" />
-        </mxCell>
-        <mxCell id="uc10" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Monitor &amp; Update&#xa;Knowledge Base" vertex="1">
-          <mxGeometry height="55" width="200" x="420" y="250" as="geometry" />
+          <mxGeometry height="55" width="260" x="150" y="685" as="geometry" />
         </mxCell>
         <mxCell id="ui1" edge="1" parent="uc_boundary" source="uc1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc2" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ui1b" edge="1" parent="uc_boundary" source="uc1b" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc2b" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ui1c" edge="1" parent="uc_boundary" source="uc2b" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc2" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ui1d" edge="1" parent="uc_boundary" source="uc1c" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc2c" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="ui2" edge="1" parent="uc_boundary" source="uc2" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc3" value="&lt;&lt;include&gt;&gt;">
@@ -245,35 +355,80 @@
         <mxCell id="ui3" edge="1" parent="uc_boundary" source="uc2" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc4" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ui4" edge="1" parent="uc_boundary" source="uc3" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc5" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="ui4" edge="1" parent="uc_boundary" source="uc3" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc_merge" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ui5" edge="1" parent="uc_boundary" source="uc4" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc5" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="ui5" edge="1" parent="uc_boundary" source="uc4" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc_merge" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ui6" edge="1" parent="uc_boundary" source="uc5" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc6" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="ui5b" edge="1" parent="uc_boundary" source="uc2c" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc_merge" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ui7" edge="1" parent="uc_boundary" source="uc6" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc7" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="ui6" edge="1" parent="uc_boundary" source="uc_merge" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc5" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ui8" edge="1" parent="uc_boundary" source="uc8" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc9" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="ui7" edge="1" parent="uc_boundary" source="uc5" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc6" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ui8" edge="1" parent="uc_boundary" source="uc6" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc7" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ui9" edge="1" parent="uc_boundary" source="uc8" style="edgeStyle=none;html=1;dashed=1;endArrow=open;fontSize=10;" target="uc9" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc8" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Upload Haircut&#xa;Knowledge Documents" vertex="1">
+          <mxGeometry height="55" width="200" x="510" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="uc9" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Build FAISS Vector Index&#xa;(run build_index.py)" vertex="1">
+          <mxGeometry height="55" width="200" x="510" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="uc10" parent="uc_boundary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Monitor &amp; Update&#xa;Knowledge Base" vertex="1">
+          <mxGeometry height="55" width="200" x="510" y="660" as="geometry" />
         </mxCell>
         <mxCell id="uc_user" parent="1" style="shape=mxgraph.basic.person;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;" value="User" vertex="1">
-          <mxGeometry height="70" width="60" x="30" y="250" as="geometry" />
-        </mxCell>
-        <mxCell id="uc_admin" parent="1" style="shape=mxgraph.basic.person;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;" value="Admin" vertex="1">
-          <mxGeometry height="70" width="60" x="1000" y="210" as="geometry" />
+          <mxGeometry height="70" width="60" x="30" y="330" as="geometry" />
         </mxCell>
         <mxCell id="uc_openai" parent="1" style="shape=mxgraph.basic.person;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;" value="OpenAI API" vertex="1">
-          <mxGeometry height="70" width="60" x="40" y="506" as="geometry" />
+          <mxGeometry height="70" width="60" x="40" y="600" as="geometry" />
         </mxCell>
         <mxCell id="ua1" edge="1" parent="1" source="uc_user" style="edgeStyle=none;html=1;strokeColor=#6c8ebf;strokeWidth=1.5;" target="uc1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="ua1b" edge="1" parent="1" source="uc_user" style="edgeStyle=none;html=1;strokeColor=#6c8ebf;strokeWidth=1.5;" target="uc1b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ua1c" edge="1" parent="1" source="uc_user" style="edgeStyle=none;html=1;strokeColor=#6c8ebf;strokeWidth=1.5;" target="uc1c">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="ua2" edge="1" parent="1" source="uc_user" style="edgeStyle=none;html=1;strokeColor=#6c8ebf;strokeWidth=1.5;" target="uc7">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ua5" edge="1" parent="1" source="uc_openai" style="edgeStyle=none;html=1;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ua5b" edge="1" parent="1" source="uc_openai" style="edgeStyle=none;html=1;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc2c">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ua6" edge="1" parent="1" source="uc_openai" style="edgeStyle=none;html=1;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_leg_title" parent="1" style="text;html=1;fontStyle=1;fontSize=12;" value="Legend" vertex="1">
+          <mxGeometry height="20" width="100" x="1180" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_leg1" parent="1" style="ellipse;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="User Interaction" vertex="1">
+          <mxGeometry height="30" width="150" x="1170" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_leg2" parent="1" style="ellipse;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="System Process" vertex="1">
+          <mxGeometry height="30" width="150" x="1170" y="312" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_leg3" parent="1" style="ellipse;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="RAG / Retrieval" vertex="1">
+          <mxGeometry height="30" width="150" x="1170" y="349" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_leg4" parent="1" style="ellipse;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" value="Admin / Setup / OpenAI" vertex="1">
+          <mxGeometry height="30" width="150" x="1170" y="386" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_admin" parent="1" style="shape=mxgraph.basic.person;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;" value="Admin" vertex="1">
+          <mxGeometry height="70" width="60" x="1170" y="645" as="geometry" />
         </mxCell>
         <mxCell id="ua3" edge="1" parent="1" source="uc_admin" style="edgeStyle=none;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc8">
           <mxGeometry relative="1" as="geometry" />
@@ -281,110 +436,134 @@
         <mxCell id="ua4" edge="1" parent="1" source="uc_admin" style="edgeStyle=none;html=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ua5" edge="1" parent="1" source="uc_openai" style="edgeStyle=none;html=1;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc2">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="ua6" edge="1" parent="1" source="uc_openai" style="edgeStyle=none;html=1;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="uc6">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="uc_leg_title" parent="1" style="text;html=1;fontStyle=1;fontSize=12;" value="Legend" vertex="1">
-          <mxGeometry height="20" width="100" x="980" y="370" as="geometry" />
-        </mxCell>
-        <mxCell id="uc_leg1" parent="1" style="ellipse;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="User Interaction" vertex="1">
-          <mxGeometry height="30" width="150" x="970" y="395" as="geometry" />
-        </mxCell>
-        <mxCell id="uc_leg2" parent="1" style="ellipse;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="System Process" vertex="1">
-          <mxGeometry height="30" width="150" x="970" y="432" as="geometry" />
-        </mxCell>
-        <mxCell id="uc_leg3" parent="1" style="ellipse;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="RAG / Retrieval" vertex="1">
-          <mxGeometry height="30" width="150" x="970" y="469" as="geometry" />
-        </mxCell>
-        <mxCell id="uc_leg4" parent="1" style="ellipse;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" value="Admin / Setup" vertex="1">
-          <mxGeometry height="30" width="150" x="970" y="506" as="geometry" />
-        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram id="dfd" name="Data Flow Diagram">
-    <mxGraphModel dx="2770" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="2770" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="1050" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" value="Data Flow Diagram (Level 1) — HaircutAI Multimodal RAG System" vertex="1">
-          <mxGeometry height="40" width="870" x="150" y="15" as="geometry" />
+          <mxGeometry height="40" width="900" x="200" y="15" as="geometry" />
         </mxCell>
         <mxCell id="user" parent="1" style="shape=mxgraph.dfd.start2;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" value="USER" vertex="1">
-          <mxGeometry height="60" width="100" x="40" y="360" as="geometry" />
+          <mxGeometry height="60" width="100" x="40" y="440" as="geometry" />
         </mxCell>
-        <mxCell id="openai" parent="1" style="shape=mxgraph.dfd.start2;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" value="OpenAI API&#xa;(GPT-4o +&#xa;Embeddings)" vertex="1">
-          <mxGeometry height="70" width="120" x="1010" y="200" as="geometry" />
+        <mxCell id="openai" parent="1" style="shape=mxgraph.dfd.start2;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" value="OpenAI API&#xa;(GPT-4o, GPT-4o-mini&#xa;+ Embeddings)" vertex="1">
+          <mxGeometry height="70" width="120" x="1130" y="260" as="geometry" />
         </mxCell>
         <mxCell id="docs_src" parent="1" style="shape=mxgraph.dfd.start2;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" value="Haircut Style&#xa;Guides / PDFs" vertex="1">
-          <mxGeometry height="60" width="110" x="-10" y="600" as="geometry" />
+          <mxGeometry height="60" width="110" x="-10" y="750" as="geometry" />
         </mxCell>
         <mxCell id="p1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P1&#xa;Image Upload &amp;&#xa;Preprocessing" vertex="1">
-          <mxGeometry height="80" width="160" x="230" y="340" as="geometry" />
+          <mxGeometry height="80" width="160" x="230" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="p1b" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P1b&#xa;Video Upload &amp; Frame&#xa;Extraction (OpenCV)" vertex="1">
+          <mxGeometry height="80" width="160" x="230" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="p1d" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P1c&#xa;Text Description&#xa;Parsing (GPT-4o-mini)" vertex="1">
+          <mxGeometry height="80" width="160" x="230" y="90" as="geometry" />
         </mxCell>
         <mxCell id="p2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P2&#xa;Feature Extraction&#xa;(GPT-4o Vision)" vertex="1">
-          <mxGeometry height="80" width="160" x="480" y="200" as="geometry" />
+          <mxGeometry height="80" width="160" x="480" y="380" as="geometry" />
         </mxCell>
         <mxCell id="p3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P3&#xa;Feature Classification&#xa;(Pydantic Schema)" vertex="1">
-          <mxGeometry height="80" width="160" x="480" y="340" as="geometry" />
+          <mxGeometry height="80" width="160" x="480" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="p_merge" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P_merge&#xa;Merge Multi-Modal&#xa;Features (services/pipeline.py)" vertex="1">
+          <mxGeometry height="80" width="170" x="700" y="350" as="geometry" />
         </mxCell>
         <mxCell id="p4" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" value="P4&#xa;Query Construction&#xa;(LangChain Template)" vertex="1">
-          <mxGeometry height="80" width="160" x="480" y="510" as="geometry" />
+          <mxGeometry height="80" width="160" x="700" y="490" as="geometry" />
         </mxCell>
         <mxCell id="p5" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" value="P5&#xa;Doc Ingestion &amp;&#xa;FAISS Indexing" vertex="1">
-          <mxGeometry height="80" width="160" x="230" y="640" as="geometry" />
+          <mxGeometry height="80" width="160" x="230" y="790" as="geometry" />
         </mxCell>
         <mxCell id="p6" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" value="P6&#xa;Semantic Retrieval&#xa;(FAISS Search)" vertex="1">
-          <mxGeometry height="80" width="160" x="730" y="480" as="geometry" />
+          <mxGeometry height="80" width="160" x="900" y="620" as="geometry" />
         </mxCell>
         <mxCell id="p7" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" value="P7&#xa;Recommendation&#xa;Generation (GPT-4o)" vertex="1">
-          <mxGeometry height="80" width="160" x="730" y="320" as="geometry" />
+          <mxGeometry height="80" width="160" x="900" y="460" as="geometry" />
         </mxCell>
         <mxCell id="p8" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="P8&#xa;Result Display&#xa;(Streamlit UI)" vertex="1">
-          <mxGeometry height="80" width="160" x="480" y="640" as="geometry" />
+          <mxGeometry height="80" width="160" x="650" y="790" as="geometry" />
         </mxCell>
         <mxCell id="d1" parent="1" style="shape=mxgraph.dfd.dataStore;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" value="D1   FAISS Vector Index" vertex="1">
-          <mxGeometry height="50" width="220" x="480" y="760" as="geometry" />
+          <mxGeometry height="50" width="220" x="650" y="910" as="geometry" />
         </mxCell>
-        <mxCell id="d2" parent="1" style="shape=mxgraph.dfd.dataStore;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="D2   Temp Image Buffer" vertex="1">
-          <mxGeometry height="50" width="200" x="210" y="525" as="geometry" />
+        <mxCell id="d2" parent="1" style="shape=mxgraph.dfd.dataStore;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="D2   Temp Image / Video Buffer" vertex="1">
+          <mxGeometry height="50" width="220" x="210" y="620" as="geometry" />
         </mxCell>
-        <mxCell id="f1" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="p1" value="Facial Photo&#xa;(JPG/PNG)">
+        <mxCell id="f1" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="p1" value="Facial Photo&#xa;(JPG/PNG/WEBP)">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f1b" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" target="p1b" value="Face Video&#xa;(MP4/MOV/AVI/MKV/WEBM)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f1d" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" target="p1d" value="Text Description">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="140" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="f2" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" target="d2" value="Encoded Image&#xa;(Base64)">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="f3" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;" target="p2" value="Base64 Image +&#xa;Vision Prompt">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="360" y="240" />
-            </Array>
-          </mxGeometry>
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3b" edge="1" parent="1" source="p1b" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;" target="p2" value="Sharpest Frame +&#xa;Vision Prompt">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="f4" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="openai" value="Image + Prompt">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="560" y="180" />
-              <mxPoint x="1040" y="180" />
+              <mxPoint x="680" y="320" />
+              <mxPoint x="1160" y="320" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f4b" edge="1" parent="1" source="openai" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="p2" value="JSON Features&#xa;(face_shape, hair_type...)">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="830" y="230" />
-              <mxPoint x="830" y="230" />
+              <mxPoint x="1000" y="370" />
+              <mxPoint x="700" y="370" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f5" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;" target="p3" value="Raw JSON Response">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="f6" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" target="p4" value="Structured Features&#xa;(FaceFeatures object)">
+        <mxCell id="f_text_openai" edge="1" parent="1" source="p1d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="openai" value="Description + Parse Prompt">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="110" />
+              <mxPoint x="1160" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_text_openai_b" edge="1" parent="1" source="openai" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="p1d" value="JSON Features (text)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1190" y="150" />
+              <mxPoint x="450" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f6" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" target="p_merge" value="Structured Features&#xa;(image/video, if provided)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f6b" edge="1" parent="1" source="p1d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" target="p_merge" value="Structured Features&#xa;(text, if provided)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="130" />
+              <mxPoint x="620" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f6c" edge="1" parent="1" source="p_merge" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" target="p4" value="Merged FaceFeatures">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="f7" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;" target="p6" value="Semantic Query String">
@@ -396,19 +575,19 @@
         <mxCell id="f9" edge="1" parent="1" source="p5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="openai" value="Text Chunks">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="280" y="780" />
-              <mxPoint x="-40" y="780" />
-              <mxPoint x="-40" y="120" />
-              <mxPoint x="1100" y="120" />
+              <mxPoint x="280" y="930" />
+              <mxPoint x="-40" y="930" />
+              <mxPoint x="-40" y="150" />
+              <mxPoint x="1120" y="150" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f9b" edge="1" parent="1" source="openai" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="p5" value="Vectors (embeddings)">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1070" y="150" />
-              <mxPoint x="430" y="150" />
-              <mxPoint x="430" y="680" />
+              <mxPoint x="1190" y="220" />
+              <mxPoint x="430" y="220" />
+              <mxPoint x="430" y="830" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -416,17 +595,17 @@
           <mxGeometry relative="1" x="-0.1489" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
-              <mxPoint x="310" y="860" />
-              <mxPoint x="590" y="860" />
+              <mxPoint x="310" y="1010" />
+              <mxPoint x="760" y="1010" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f11" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;" target="p6" value="Load Index">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="750" y="785" />
-              <mxPoint x="810" y="785" />
-              <mxPoint x="810" y="560" />
+              <mxPoint x="920" y="935" />
+              <mxPoint x="980" y="935" />
+              <mxPoint x="980" y="700" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -436,71 +615,71 @@
         <mxCell id="f13" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" target="p7" value="Feature Context +&#xa;RAG Prompt">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="620" y="480" />
-              <mxPoint x="700" y="480" />
-              <mxPoint x="700" y="360" />
+              <mxPoint x="840" y="630" />
+              <mxPoint x="870" y="630" />
+              <mxPoint x="870" y="510" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f14" edge="1" parent="1" source="p7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="openai" value="Prompt + Context">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1110" y="360" />
+              <mxPoint x="1200" y="500" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f14b" edge="1" parent="1" source="openai" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" target="p7" value="Generated Recommendation">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1010" y="250" />
-              <mxPoint x="950" y="250" />
-              <mxPoint x="950" y="350" />
+              <mxPoint x="1100" y="400" />
+              <mxPoint x="1070" y="400" />
+              <mxPoint x="1070" y="490" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f15" edge="1" parent="1" source="p7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;" target="p8" value="Recommendation Text +&#xa;Source Chunks">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="950" y="390" />
-              <mxPoint x="950" y="680" />
+              <mxPoint x="980" y="540" />
+              <mxPoint x="980" y="830" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="f16" edge="1" parent="1" source="p8" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" target="user" value="Haircut Recommendation&#xa;+ Detected Features">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="450" y="680" />
-              <mxPoint x="450" y="880" />
-              <mxPoint x="-100" y="880" />
-              <mxPoint x="-100" y="390" />
+              <mxPoint x="600" y="830" />
+              <mxPoint x="600" y="1030" />
+              <mxPoint x="-100" y="1030" />
+              <mxPoint x="-100" y="470" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="leg_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="" vertex="1">
-          <mxGeometry height="210" width="160" x="1090" y="600" as="geometry" />
+          <mxGeometry height="210" width="160" x="1120" y="750" as="geometry" />
         </mxCell>
         <mxCell id="leg_title" parent="1" style="text;html=1;fontStyle=1;fontSize=12;align=center;" value="Legend" vertex="1">
-          <mxGeometry height="20" width="160" x="1090" y="605" as="geometry" />
+          <mxGeometry height="20" width="160" x="1120" y="755" as="geometry" />
         </mxCell>
         <mxCell id="leg_ext" parent="1" style="shape=mxgraph.dfd.start2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="External Entity" vertex="1">
-          <mxGeometry height="30" width="130" x="1105" y="630" as="geometry" />
+          <mxGeometry height="30" width="130" x="1135" y="780" as="geometry" />
         </mxCell>
         <mxCell id="leg_proc" parent="1" style="ellipse;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="Process" vertex="1">
-          <mxGeometry height="30" width="130" x="1105" y="670" as="geometry" />
+          <mxGeometry height="30" width="130" x="1135" y="820" as="geometry" />
         </mxCell>
         <mxCell id="leg_store" parent="1" style="shape=mxgraph.dfd.dataStore;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="D#   Data Store" vertex="1">
-          <mxGeometry height="30" width="130" x="1105" y="710" as="geometry" />
+          <mxGeometry height="30" width="130" x="1135" y="860" as="geometry" />
         </mxCell>
         <mxCell id="leg_api" edge="1" parent="1" style="dashed=1;strokeColor=#b85450;strokeWidth=2;fontSize=10;" value="API Call (External)">
           <mxGeometry as="geometry">
-            <mxPoint x="1105" y="765" as="sourcePoint" />
-            <mxPoint x="1235" y="765" as="targetPoint" />
+            <mxPoint x="1135" y="915" as="sourcePoint" />
+            <mxPoint x="1265" y="915" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="leg_flow" edge="1" parent="1" style="strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" value="Data Flow">
           <mxGeometry as="geometry">
-            <mxPoint x="1105" y="785" as="sourcePoint" />
-            <mxPoint x="1235" y="785" as="targetPoint" />
+            <mxPoint x="1135" y="935" as="sourcePoint" />
+            <mxPoint x="1265" y="935" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>

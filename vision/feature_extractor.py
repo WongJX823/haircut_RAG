@@ -3,6 +3,7 @@ Sends a facial image to GPT-4o Vision and returns structured face/hair features.
 """
 
 import base64
+from collections import Counter
 from pathlib import Path
 from openai import OpenAI
 from pydantic import BaseModel
@@ -14,6 +15,27 @@ class FaceFeatures(BaseModel):
     hair_type: str        # Straight | Wavy | Curly | Coily
     hair_texture: str     # Fine | Medium | Thick
     gender: str           # Male | Female | Unspecified
+
+
+def merge_features(candidates: list[FaceFeatures]) -> FaceFeatures:
+    """
+    Combines features extracted from multiple inputs (e.g. image + video + text)
+    into one profile. Per field, takes the majority value; ties go to whichever
+    candidate appears first, so callers should order `candidates` by priority
+    (most trustworthy source first, e.g. image before video before text).
+    """
+    if not candidates:
+        raise ValueError("No feature candidates to merge.")
+    if len(candidates) == 1:
+        return candidates[0]
+
+    merged = {}
+    for field in FaceFeatures.model_fields:
+        values = [getattr(c, field) for c in candidates]
+        counts = Counter(values)
+        top_count = max(counts.values())
+        merged[field] = next(v for v in values if counts[v] == top_count)
+    return FaceFeatures(**merged)
 
 
 def encode_image(image_path: str) -> str:
