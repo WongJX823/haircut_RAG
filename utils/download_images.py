@@ -43,7 +43,7 @@ SEARCH_FALLBACK = {
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 headers = {
-    "User-Agent": "HaircutAI-Project/1.0 (educational project; wongjiaxi@gmail.com)"
+    "User-Agent": "HaircutAI-Project/1.0 (educational project; contact via GitHub)"
 }
 
 def download(url: str, out_path: str, label: str) -> bool:

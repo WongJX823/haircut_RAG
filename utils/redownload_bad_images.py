@@ -12,7 +12,7 @@ import time
 OUTPUT_DIR = "assets/images"
 
 headers = {
-    "User-Agent": "HaircutAI-Project/1.0 (educational project; wongjiaxi@gmail.com)"
+    "User-Agent": "HaircutAI-Project/1.0 (educational project; contact via GitHub)"
 }
 
 

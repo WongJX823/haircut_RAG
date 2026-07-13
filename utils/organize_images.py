@@ -16,7 +16,7 @@ MEN = os.path.join(BASE, "men")
 WOMEN = os.path.join(BASE, "women")
 
 headers = {
-    "User-Agent": "HaircutAI-Project/1.0 (educational project; wongjiaxi@gmail.com)"
+    "User-Agent": "HaircutAI-Project/1.0 (educational project; contact via GitHub)"
 }
 
 # Existing images -> destination folder (verified visually: photo shows that gender)
