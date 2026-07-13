@@ -1,5 +1,7 @@
 # ✂️ HaircutAI
 
+**Live demo:** https://haircutrag-801616773657.asia-southeast1.run.app/
+
 A multimodal RAG (Retrieval-Augmented Generation) app that recommends a personalised haircut based on your face shape, hair type, and hair texture — detected from a photo, a short video, a written description, or any combination of the three.
 
 ## How it works
@@ -14,7 +16,7 @@ A multimodal RAG (Retrieval-Augmented Generation) app that recommends a personal
 3. **Merge** — if multiple inputs were given, the results are combined field-by-field by majority vote (ties broken in favour of image > video > text).
 4. **Retrieval** — the merged profile is turned into a search query and matched against a FAISS vector index built from a local knowledge base of haircut guides.
 5. **Recommendation** — GPT-4o generates a grounded recommendation using only the retrieved knowledge, citing which style to try and which to avoid.
-6. **Feedback** — users rate whether they're satisfied with the recommendation; responses are appended to a local `feedback.csv` (note: ephemeral on Cloud Run — swap in a database if feedback collection matters in production).
+6. **Feedback** — users rate whether they're satisfied with the recommendation; responses are written to Firestore on Cloud Run (persistent across restarts), falling back to a local `feedback.csv` when Firestore credentials are unavailable.
 
 See [diagrams/haircut_ai_diagrams.drawio](diagrams/haircut_ai_diagrams.drawio) for the full flowchart, use case, and data flow diagrams.
 

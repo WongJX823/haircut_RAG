@@ -5,6 +5,7 @@ UI layer calls only this file. No Streamlit imports here.
 
 import os
 import tempfile
+import traceback
 from pathlib import Path
 from dataclasses import dataclass, field
 
@@ -149,7 +150,8 @@ def run_pipeline(
         )
 
     except Exception as e:
-        return PipelineResult(success=False, error=f"Pipeline error: {str(e)}")
+        traceback.print_exc()
+        return PipelineResult(success=False, error="An internal error occurred. Please try again.")
 
     finally:
         for path in (image_tmp_path, video_frame_tmp_path):
