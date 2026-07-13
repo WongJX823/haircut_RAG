@@ -2,6 +2,8 @@
 
 **Live demo:** https://haircutrag-801616773657.asia-southeast1.run.app/
 
+![HaircutAI screenshot](docs/screenshot.png)
+
 A multimodal RAG (Retrieval-Augmented Generation) app that recommends a personalised haircut based on your face shape, hair type, and hair texture — detected from a photo, a short video, a written description, or any combination of the three.
 
 ## How it works
