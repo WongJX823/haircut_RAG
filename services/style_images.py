@@ -12,6 +12,7 @@ IMAGES_DIR = "assets/images"
 STYLE_ALIASES = {
     "afro": ["afro"],
     "blunt_bob": ["blunt bob"],
+    "bun": ["bun", "man bun", "top knot", "topknot", "messy bun"],
     "bob": ["bob", "a-line bob", "inverted bob", "textured bob"],
     "buzz_cut": ["buzz cut"],
     "cornrows": ["cornrows", "cornrow braids"],
