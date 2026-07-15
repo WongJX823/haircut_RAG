@@ -9,7 +9,7 @@ import json
 
 from openai import OpenAI
 from pydantic import BaseModel, ValidationError
-from vision.feature_extractor import FaceFeatures
+from vision.feature_extractor import FaceFeatures, GENDER_CONFIDENCE_THRESHOLD
 from rag.retriever import retrieve_chunks
 from prompts.rag_prompt import build_rag_prompt
 
@@ -29,8 +29,16 @@ class StructuredRecommendation(BaseModel):
 
 
 def recommend(features: FaceFeatures) -> dict:
+    # Below the confidence threshold, the gender read is a coin-flip (androgynous/
+    # bigender presentation) rather than a confident call, so widen the query
+    # instead of committing to one gender's styles.
+    gender_phrase = (
+        features.gender.lower()
+        if features.gender_confidence >= GENDER_CONFIDENCE_THRESHOLD
+        else "any gender presentation"
+    )
     query = (
-        f"Haircut recommendations for {features.gender.lower()} with "
+        f"Haircut recommendations for {gender_phrase} with "
         f"{features.face_shape} face shape, {features.hair_type} hair, "
         f"{features.hair_texture} texture"
     )

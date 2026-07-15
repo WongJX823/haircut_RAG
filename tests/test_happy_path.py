@@ -136,3 +136,29 @@ def test_gender_mismatch_between_photo_and_text(monkeypatch, fake_jpeg_bytes):
     )
     assert not result.success
     assert "gender" in result.error.lower() or "Female" in result.error
+
+
+def test_low_confidence_gender_read_does_not_trigger_mismatch(monkeypatch, fake_jpeg_bytes):
+    """A low-confidence (androgynous/bigender) visual read is a coin flip, not a
+    disagreement, so it must not block the run even if the text names a gender."""
+    ambiguous = FaceFeatures(
+        face_shape="Round", hair_type="Curly", hair_texture="Thick",
+        gender="Male", gender_confidence=0.5,
+    )
+    female = FaceFeatures(
+        face_shape="Round", hair_type="Curly", hair_texture="Thick", gender="Female"
+    )
+    monkeypatch.setattr(
+        pipeline, "validate_index_exists", lambda: ValidationResult(True)
+    )
+    monkeypatch.setattr(pipeline, "handle_image", lambda path: ambiguous)
+    monkeypatch.setattr(pipeline, "handle_text", lambda text: female)
+    monkeypatch.setattr(pipeline, "check_same_person", lambda paths: (True, ""))
+    monkeypatch.setattr(pipeline, "recommend", lambda features: _recommendation())
+
+    result = run_pipeline(
+        image_bytes=fake_jpeg_bytes,
+        image_filename="selfie.jpg",
+        user_text="I am female with a round face and curly hair.",
+    )
+    assert result.success

@@ -103,7 +103,11 @@ if result is not None:
     col1.metric("Face Shape",   result.features.face_shape)
     col2.metric("Hair Type",    result.features.hair_type)
     col3.metric("Hair Texture", result.features.hair_texture)
-    col4.metric("Gender",       result.features.gender)
+    col4.metric(
+        "Gender", result.features.gender,
+        delta=f"{result.features.gender_confidence:.0%} confidence",
+        delta_color="off",
+    )
 
     st.divider()
 
@@ -117,7 +121,9 @@ if result is not None:
         cols = st.columns(len(rec.haircuts))
         for col, cut in zip(cols, rec.haircuts):
             with col, st.container(border=True, height="stretch"):
-                images = find_style_images(cut.name, result.features.gender, max_images=1)
+                images = find_style_images(
+                    cut.name, result.features.gender, result.features.gender_confidence, max_images=1
+                )
                 if images:
                     st.image(images[0]["path"], width="stretch")
                 st.markdown(f"#### {cut.name}")
@@ -127,7 +133,7 @@ if result is not None:
     else:
         # Fallback when the model returned plain text: scan it for known
         # style names and show any matching reference photos.
-        ref_images = find_style_images(rec.summary, result.features.gender)
+        ref_images = find_style_images(rec.summary, result.features.gender, result.features.gender_confidence)
         if ref_images:
             st.subheader("Reference looks")
             cols = st.columns(len(ref_images))

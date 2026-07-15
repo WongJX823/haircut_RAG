@@ -9,7 +9,9 @@ import traceback
 from pathlib import Path
 from dataclasses import dataclass, field
 
-from vision.feature_extractor import FaceFeatures, merge_features, check_same_person
+from vision.feature_extractor import (
+    FaceFeatures, merge_features, check_same_person, GENDER_CONFIDENCE_THRESHOLD,
+)
 from rag.recommender import recommend, StructuredRecommendation
 from services.validator import (
     validate_image, validate_video, validate_text,
@@ -113,21 +115,29 @@ def run_pipeline(
         # If a text description was given alongside a photo/video, make sure it
         # isn't describing a clearly different person. Gender is the clearest,
         # least subjective signal for this (face shape/hair can vary legitimately
-        # between a photo and a self-description).
-        visual_genders = {
-            c.gender for src, c in zip(input_sources, candidates) if src in ("image", "video")
+        # between a photo and a self-description). Only compare reads both sides
+        # are actually confident about — a low-confidence (androgynous/bigender)
+        # read is a coin flip, not a disagreement, so it shouldn't block the run.
+        visual_candidates = [
+            c for src, c in zip(input_sources, candidates) if src in ("image", "video")
+        ]
+        confident_visual_genders = {
+            c.gender for c in visual_candidates if c.gender_confidence >= GENDER_CONFIDENCE_THRESHOLD
         }
-        text_gender = next(
-            (c.gender for src, c in zip(input_sources, candidates) if src == "text"), None
+        text_candidate = next(
+            (c for src, c in zip(input_sources, candidates) if src == "text"), None
         )
-        known_visual_genders = visual_genders - {"Unspecified"}
-        if text_gender and text_gender != "Unspecified" and len(known_visual_genders) == 1:
-            visual_gender = next(iter(known_visual_genders))
-            if text_gender != visual_gender:
+        if (
+            text_candidate
+            and text_candidate.gender_confidence >= GENDER_CONFIDENCE_THRESHOLD
+            and len(confident_visual_genders) == 1
+        ):
+            visual_gender = next(iter(confident_visual_genders))
+            if text_candidate.gender != visual_gender:
                 return PipelineResult(
                     success=False,
                     error=(
-                        f"Your description says gender is '{text_gender}', but the photo/video "
+                        f"Your description says gender is '{text_candidate.gender}', but the photo/video "
                         f"suggests '{visual_gender}'. Please make sure all inputs describe the same person."
                     ),
                 )

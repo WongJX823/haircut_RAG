@@ -7,15 +7,23 @@ import json
 from collections import Counter
 from pathlib import Path
 from openai import OpenAI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from prompts.vision_prompt import VISION_PROMPT, SAME_PERSON_PROMPT
 
 
+# Below this, a gender read is treated as an androgynous/bigender coin-flip
+# rather than a confident Male/Female call (used by pipeline/RAG/style lookup).
+GENDER_CONFIDENCE_THRESHOLD = 0.65
+
+
 class FaceFeatures(BaseModel):
-    face_shape: str       # Oval | Round | Square | Heart
-    hair_type: str        # Straight | Wavy | Curly | Coily
-    hair_texture: str     # Fine | Medium | Thick
-    gender: str           # Male | Female | Unspecified
+    face_shape: str            # Oval | Round | Square | Heart
+    hair_type: str             # Straight | Wavy | Curly | Coily
+    hair_texture: str          # Fine | Medium | Thick
+    gender: str                # Male | Female
+    gender_confidence: float = Field(default=1.0, ge=0.0, le=1.0)
+    # 1.0 = clearly one presentation, scaling down toward 0.5 for an
+    # androgynous/bigender presentation where the Male/Female pick is a coin flip.
 
 
 def merge_features(candidates: list[FaceFeatures]) -> FaceFeatures:
@@ -24,6 +32,7 @@ def merge_features(candidates: list[FaceFeatures]) -> FaceFeatures:
     into one profile. Per field, takes the majority value; ties go to whichever
     candidate appears first, so callers should order `candidates` by priority
     (most trustworthy source first, e.g. image before video before text).
+    `gender_confidence` is numeric, not categorical, so it's averaged instead.
     """
     if not candidates:
         raise ValueError("No feature candidates to merge.")
@@ -32,6 +41,9 @@ def merge_features(candidates: list[FaceFeatures]) -> FaceFeatures:
 
     merged = {}
     for field in FaceFeatures.model_fields:
+        if field == "gender_confidence":
+            merged[field] = sum(getattr(c, field) for c in candidates) / len(candidates)
+            continue
         values = [getattr(c, field) for c in candidates]
         counts = Counter(values)
         top_count = max(counts.values())

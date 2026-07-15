@@ -1,7 +1,14 @@
-from vision.feature_extractor import FaceFeatures
+from vision.feature_extractor import FaceFeatures, GENDER_CONFIDENCE_THRESHOLD
 
 
 def build_rag_prompt(features: FaceFeatures, context: str) -> str:
+    gender_line = f"Gender     : {features.gender} (confidence: {features.gender_confidence:.0%})"
+    if features.gender_confidence < GENDER_CONFIDENCE_THRESHOLD:
+        gender_line += (
+            "\nNote: this presentation reads as androgynous/bigender — favor versatile, "
+            "unisex-friendly styles rather than committing to one gendered convention."
+        )
+
     return f"""
 You are an expert hairstylist giving personalised haircut advice.
 Use ONLY the knowledge provided below to make your recommendation.
@@ -11,7 +18,7 @@ Do not invent styles that are not mentioned in the context.
 Face Shape : {features.face_shape}
 Hair Type  : {features.hair_type}
 Hair Texture: {features.hair_texture}
-Gender     : {features.gender}
+{gender_line}
 
 --- HAIRCUT KNOWLEDGE ---
 {context}

@@ -87,8 +87,10 @@ class TestStyleImages:
     def test_no_styles_mentioned_returns_empty(self):
         assert find_style_images("Moisturise your hair daily.", "Female") == []
 
-    def test_unknown_gender_still_finds_image(self):
-        results = find_style_images("Get a buzz cut.", "Unspecified")
+    def test_low_confidence_gender_still_finds_image(self):
+        # Androgynous/bigender presentation (confidence below threshold): use
+        # whichever folder has the style, rather than committing to one gender.
+        results = find_style_images("Get a buzz cut.", "Male", gender_confidence=0.5)
         assert len(results) == 1
 
     def test_bun_found_for_male(self):

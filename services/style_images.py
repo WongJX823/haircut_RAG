@@ -6,6 +6,8 @@ reference images in assets/images/men/ and assets/images/women/.
 import os
 import re
 
+from vision.feature_extractor import GENDER_CONFIDENCE_THRESHOLD
+
 IMAGES_DIR = "assets/images"
 
 # style filename (without .jpg) -> aliases that may appear in the recommendation
@@ -37,7 +39,9 @@ STYLE_ALIASES = {
 }
 
 
-def find_style_images(recommendation: str, gender: str, max_images: int = 3) -> list[dict]:
+def find_style_images(
+    recommendation: str, gender: str, gender_confidence: float = 1.0, max_images: int = 3
+) -> list[dict]:
     """Return reference images for styles mentioned in the recommendation.
 
     Each result: {"style": "Wolf Cut", "path": "assets/images/men/wolf_cut.jpg"}.
@@ -46,12 +50,12 @@ def find_style_images(recommendation: str, gender: str, max_images: int = 3) -> 
     """
     text = recommendation.lower()
 
-    if gender.lower() == "male":
+    if gender_confidence < GENDER_CONFIDENCE_THRESHOLD:
+        folders = ["men", "women"]  # androgynous/bigender: use whichever image exists
+    elif gender.lower() == "male":
         folders = ["men"]
-    elif gender.lower() == "female":
-        folders = ["women"]
     else:
-        folders = ["men", "women"]  # unspecified: use whichever image exists
+        folders = ["women"]
 
     # (alias, style) pairs, longest alias first so specific names win
     pairs = sorted(

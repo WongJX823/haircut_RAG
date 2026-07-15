@@ -16,13 +16,19 @@ Extract the following information and return ONLY a JSON object:
   "face_shape": "<Oval | Round | Square | Heart>",
   "hair_type": "<Straight | Wavy | Curly | Coily>",
   "hair_texture": "<Fine | Medium | Thick>",
-  "gender": "<Male | Female | Unspecified>"
+  "gender": "<Male | Female>",
+  "gender_confidence": <number between 0.0 and 1.0>
 }
 
 Rules:
-- Choose exactly one value per key from the options given.
+- Choose exactly one value per key from the options given (gender_confidence is a number, not a category).
 - If the user does not mention a field, make a reasonable default:
-    face_shape → "Oval", hair_type → "Straight", hair_texture → "Medium", gender → "Unspecified"
+    face_shape → "Oval", hair_type → "Straight", hair_texture → "Medium"
+- For "gender": infer it from explicit statements ("I am male/female"), pronouns, or names.
+  Always choose Male or Female — there is no "Unspecified" option.
+- Set "gender_confidence" to 1.0 when the text is explicit about gender, and lower (down to 0.5)
+  when you're guessing from weak cues, when nothing in the text indicates a gender at all, or
+  when the text describes an androgynous/bigender presentation.
 - Do not include anything outside the JSON.
 
 User description:
