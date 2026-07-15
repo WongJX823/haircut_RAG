@@ -13,6 +13,11 @@ Rules:
 - Choose exactly one value per key from the options given.
 - Base face_shape on jawline, cheekbone width, and forehead width.
 - If hair is not visible or too short to judge, set hair_type to "Straight" and hair_texture to "Medium".
+- For "gender", give your best-effort read of masculine vs. feminine presentation based on
+  visual cues (hairstyle, styling, facial features) — this is only used to pick appropriately
+  styled haircut examples, not to make a claim about identity. Make a Male/Female call whenever
+  the image gives reasonable visual cues. Only use "Unspecified" if the face is not clearly
+  visible or the presentation is genuinely ambiguous.
 - Do not include any explanation outside the JSON.
 """
 
